@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row align-items-center">
+        <!-- Dropdown a la izquierda -->
+        <div class="col-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtrar
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Orientación</a></li>
+                    <li><a class="dropdown-item" href="#">Prevención</a></li>
+                    <li><a class="dropdown-item" href="#">Intervención</a></li>
+                    <li><a class="dropdown-item" href="#">Mostrar todo</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Botón de registro centrado en relación al contenedor total -->
+        <div class="col-4 d-flex justify-content-center">
+            <button class="btn btn-primary">
+                <a>Registro de Atención</a>
+            </button>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var dropdownItems = document.querySelectorAll('.dropdown-item');
+    var dropdownButton = document.querySelector('#dropdownMenuButton');
+    
+    dropdownItems.forEach(function(item) {
+        item.addEventListener('click', function (e) {
+            // Evita el comportamiento por defecto del enlace
+            e.preventDefault();
+            // Cambia el texto del botón al valor del elemento seleccionado
+            dropdownButton.textContent = this.textContent;
+            // Cierra el dropdown si está abierto
+            var dropdownElement = bootstrap.Dropdown.getInstance(dropdownButton);
+            dropdownElement.hide();
+        });
+    });
+});
+</script>
+{% endblock content %}
