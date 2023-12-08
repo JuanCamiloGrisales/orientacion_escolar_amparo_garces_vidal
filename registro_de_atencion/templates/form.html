@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'form/styles.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+
+<form action="" method="post">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="numeroConsecutivo" class="form-label">Número Consecutivo</label>
+    <input type="number" class="form-control-sm text-center" id="numeroConsecutivo" name="numeroConsecutivo" value="1">
+  </div>
+
+  <div class="mb-3">
+    <label for="fechaDeAtencion" class="form-label">Fecha de atención</label>
+    <input type="datetime-local" class="form-control-sm" id="fechaDeAtencion" name="fechaDeAtencion"
+      value="{% now 'Y-m-d H:i' %}">
+  </div>
+
+  {% include 'autocomplete.html' with field_label='Municipio' field_id='municipio' %}
+  {{ municipios|json_script:"municipios_data" }}
+
+  <div class="row mb-3">
+    <div class="col-sm">
+      <label for="nombreEstablecimiento" class="form-label">Nombre del Establecimiento Educativo</label>
+      <input type="text" class="form-control form-control" id="nombreEstablecimiento" name="nombreEstablecimiento"
+        value='Escuela Normal Superior "Claudina Múnera"'>
+    </div>
+    <div class="col-sm">
+      <label for="codigoDane" class="form-label">Código DANE</label>
+      <input type="text" class="form-control" id="codigoDane" name="codigoDane">
+    </div>
+  </div>
+
+
+  <div class="mb-3 autocomplete-wrapper">
+    <label for="sede" class="form-label">Sede</label><br>
+    <input type="text" id="sede" name="sede" class="form-control-sm autocomplete-input">
+    <ul class="list-group autocomplete-results"></ul>
+  </div>
+
+  {% include 'autocomplete.html' with field_label='Remitido Por' field_id='remitidoPor' %}
+
+  {% include 'autocomplete.html' with field_label='Posibles motivos de atención' field_id='posiblesMotivosDeAtencion' %}
+
+  {% include 'autocomplete.html' with field_label='Tipo de atención' field_id='tipoDeAtencion' %}
+
+  {% include 'autocomplete.html' with field_label='Entidad Prestadora de Salud' field_id='entidadPrestadoraDeSalud' %}
+
+
+  <h2 class="mt-5 mb-3 font-weight-bold">Datos Personales</h2>
+
+  <div class="mb-3 autocomplete-wrapper">
+    <label for="nombreEstudiante" class="form-label">Nombre del Estudiante</label>
+    <input type="text" class="form-control autocomplete-input" id="nombreEstudiante" name="nombreEstudiante"
+      placeholder="Ingrese el nombre del alumno para autocompletar">
+    <ul class="list-group autocomplete-results"></ul>
+  </div>
+
+  {% include 'normal.html' with field_label='Nombre Completo del Estudiante' field_id='nombreCompletoEstudiante' %}
+
+  <div class="row mb-3">
+    <div class="col">
+      <label for="tipoDocumentoEstudiante" class="form-label">Tipo de Documento</label>
+      <input type="text" class="form-control" id="tipoDocumentoEstudiante" name="tipoDocumentoEstudiante">
+    </div>
+    <div class="col">
+      <label for="numeroDocumentoEstudiante" class="form-label">Número de Documento</label>
+      <input type="text" class="form-control" id="numeroDocumentoEstudiante" name="numeroDocumentoEstudiante">
+
+    </div>
+  </div>
+
+  {% include 'normal.html' with field_label='EPS' field_id='epsEstudiante' %}
+
+
+  <div class="mb-3 input-group">
+    <span class="input-group-text">Fecha y lugar de nacimiento</span>
+    <input type="text" aria-label="Fecha" id="fechaNacimientoEstudiante" class="form-control">
+    <input type="text" aria-label="Lugar" id="lugarNacimientoEstudiante" class="form-control">
+  </div>
+
+  {% include 'normal.html' with field_id='acudiente' field_label='Acudiente' %}
+
+  {% include 'normal.html' with field_label='Teléfono del Acudiente' field_id='telefonoAcudiente' %}
+
+  {% include 'normal.html' with field_label='Número de Documento del Acudiente' field_id='documentoAcudiente' %}
+
+  {% include 'normal.html' with field_label='Dirección' field_id='direccion' %}
+
+  {% include 'normal.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' %}
+
+  {% include 'normal.html' with field_label='Parentesco del Acudiente' field_id='parentescoAcudiente' %}
+
+
+
+  <h2 class="mt-5 mb-3 font-weight-bold">Composición Familiar</h2>
+
+  <div class="row mb-3">
+    <div class="col">
+      {% include 'autocomplete.html' with field_label='Sexo' field_id='sexoComposicionFamiliar' %}
+    </div>
+    <div class="col">
+      {% include 'autocomplete.html' with field_label='Género' field_id='generoComposicionFamiliar' %}
+    </div>
+  </div>
+  {% include 'autocomplete.html' with field_label='Nombre' field_id='nombreComposicionFamiliar' %}
+  {% include 'autocomplete.html' with field_label='Parentesco' field_id='parentescoComposicionFamiliar' %}
+  {% include 'autocomplete.html' with field_label='Edad' field_id='edadComposicionFamiliar' %}
+  {% include 'autocomplete.html' with field_label='Ocupación' field_id='ocupacionComposicionFamiliar' %}
+  {% include 'autocomplete.html' with field_label='Nivel Educativo' field_id='nivelEducativoComposicionFamiliar' %}
+  <div class="row mb-3">
+    <div class="col">
+      {% include 'autocomplete.html' with field_label='Estado Civil' field_id='estadoCivilComposicionFamiliar' %}
+    </div>
+    <div class="col">
+      {% include 'normal.html' with field_label='Número de Hijos' field_id='numeroDeHijos' %}
+
+    </div>
+  </div>
+  {% include 'normal.html' with field_label='Teléfono' field_id='telefonoComposicionFamiliar' %}
+  {% include 'normal.html' with field_label='Lugar de Residencia' field_id='lugarDeResidenciaComposicionFamiliar' %}
+  {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoDeFamiliaComposicionFamiliar' %}
+
+
+  <button type="submit" class="btn btn-primary">Registrar</button>
+
+</form>
+
+<script src="{% static 'form/script.js' %}"></script>
+
+{% endblock %}
