@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
   <div class="mb-3">
@@ -32,7 +32,7 @@
     </div>
     <div class="col-sm">
       <label for="codigoDane" class="form-label">Código DANE</label>
-      <input type="text" class="form-control" id="codigoDane" name="codigoDane">
+      <input type="text" class="form-control" id="codigoDane" name="codigoDane" value="117013001167">
     </div>
   </div>
 
@@ -46,6 +46,8 @@
   {% include 'autocomplete.html' with field_label='Remitido Por' field_id='remitidoPor' %}
 
   {% include 'autocomplete.html' with field_label='Posibles motivos de atención' field_id='posiblesMotivosDeAtencion' %}
+
+  {% include 'autocomplete.html' with field_label='Línea de atención' field_id='lineaDeAtencion' %}
 
   {% include 'autocomplete.html' with field_label='Tipo de atención' field_id='tipoDeAtencion' %}
 
@@ -108,9 +110,9 @@
       {% include 'autocomplete.html' with field_label='Género' field_id='generoComposicionFamiliar' %}
     </div>
   </div>
-  {% include 'autocomplete.html' with field_label='Nombre' field_id='nombreComposicionFamiliar' %}
   {% include 'autocomplete.html' with field_label='Parentesco' field_id='parentescoComposicionFamiliar' %}
-  {% include 'autocomplete.html' with field_label='Edad' field_id='edadComposicionFamiliar' %}
+  {% include 'normal.html' with field_label='Nombre' field_id='nombreComposicionFamiliar' %}
+  {% include 'normal.html' with field_label='Edad' field_id='edadComposicionFamiliar' %}
   {% include 'autocomplete.html' with field_label='Ocupación' field_id='ocupacionComposicionFamiliar' %}
   {% include 'autocomplete.html' with field_label='Nivel Educativo' field_id='nivelEducativoComposicionFamiliar' %}
   <div class="row mb-3">
@@ -118,7 +120,7 @@
       {% include 'autocomplete.html' with field_label='Estado Civil' field_id='estadoCivilComposicionFamiliar' %}
     </div>
     <div class="col">
-      {% include 'normal.html' with field_label='Número de Hijos' field_id='numeroDeHijos' %}
+      {% include 'normal.html' with field_label='Número de Hijos' field_id='numeroDeHijosComposicionFamiliar' %}
 
     </div>
   </div>
@@ -126,10 +128,93 @@
   {% include 'normal.html' with field_label='Lugar de Residencia' field_id='lugarDeResidenciaComposicionFamiliar' %}
   {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoDeFamiliaComposicionFamiliar' %}
 
+  <h2 class="mt-5 mb-3 font-weight-bold">Acuerdos de Atención</h2>
 
-  <button type="submit" class="btn btn-primary">Registrar</button>
+  <div class="mb-3">
+    <label for="espectativasEntrevistado" class="form-label">Espectativas del Entrevistado</label>
+    <textarea class="form-control" id="espectativasEntrevistado" name="espectativasEntrevistado" rows="3"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="files" class="form-label">Acuerdos Previos</label>
+    <input class="form-control" type="file" id="files" name="files" multiple>
+  </div>
+  <div id="preview" class="mb-2"></div>
+
+  <h2 class="mt-5 mb-3 font-weight-bold">Descripción de Situaciones de Riesgo a Nivel Individual</h2>
+
+  {% include 'autocomplete.html' with field_label='Condición de Discapacidad' field_id='condicionDeDiscapacidad' %}
+  {% include 'autocomplete.html' with field_label='Tipo de Discapacidad' field_id='tipoDeDiscapacidad' %}
+  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales' field_id='talentoYCapacidadesExepcionales' %}
+
+  <div class="mb-3">
+    <label for="relatoEntrevistado" class="form-label">Relato del Entrevistado</label>
+    <textarea class="form-control" id="relatoEntrevistado" name="relatoEntrevistado" rows="3">DESCRIPCIÓN DE SITUACIONES DE RIESGO A NIVEL INDIVIDUAL (Antecedentes Relevantes Personales Y/O Familiares Médicos, Quirúrgicos, Psicológicos, Redes de Apoyo, Factores Protectores)</textarea>
+  </div>
+  <h2 class="mt-5 mb-3 font-weight-bold">Apreciación de la Docente Orientadora</h2>
+
+  <div class="mb-3">
+    <label for="apreciacion" class="form-label">Observaciones</label>
+    <textarea class="form-control" id="apreciacion" name="apreciacion" rows="15">Nota: La información consignada no constituye en ningún caso un diagnóstico o concepto medico y/o profesional sobre la salud mental o física de la persona a quien se refiere, ni tampoco sustituye el informe que deben adelantar las autoridades competentes sobre la presunta comisión de algún delito. Este informe es una ficha de seguimiento de la profesional de orientación escolar para darle adecuada atención y acompañamiento en el proceso de formación dentro del sistema de convivencia escolar.
+
+POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida en el siguiente texto contiene datos sensibles y privados sobre terceros; se solicita mantener absoluta confidencialidad sobre la identidad y circunstancias descriptas; quedando bajo la responsabilidad de quienes reciben este informe la violación del derecho a la intimidad y el respeto a la privacidad. Es preciso abstenerse de exponer en reuniones y comités con carácter informativos o instancias de toma de decisiones estratégicas la identidad, ubicación y demás datos que posibiliten la identificación de las personas de las que trata este este reporte. 
+</textarea>
+  </div>
+
+  {% include 'autocomplete.html' with field_label='Activación de Ruta' field_id='activacionDeRuta' %}
+  
+  <div class="mb-3">
+    <label for="procesos convivencia" class="form-label">Procesos de Convivencia</label>
+<textarea class="form-control" id="procesos convivencia" name="procesos convivencia" rows="20">Institución Educativa Escuela Normal Superior “Claudina Múnera”
+Autorización de Funcionamiento de Programa de Formación Complementaria de Educadores
+Resolución No. 7780 del 6 de Septiembre de 2010 del Ministerio de Educación Nacional
+Licencia de Funcionamiento y Reconocimiento Oficial
+Resolución No. 6478 del 2 de Noviembre de 2010 y Resolución No. 8299-6 del 8 de Septiembre de 2015 Secretaría de Educación Departamental
+DANE: 117013001167 - NIT: 810000561-9</textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="compromiso" class="form-label">Remisión</label>
+    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+  </div>
+
+  <div class="mb-3">
+    <label for="compromiso" class="form-label">Piar</label>
+    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+  </div>
+
+  {% include 'autocomplete.html' with field_label='Estado del Caso' field_id='estadoDelCaso' %}
+
+  <div class="mb-3">
+    <label for="compromiso" class="form-label">Compromiso de Padres</label>
+    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+  </div>
+
+  <div class="mb-3">
+    <label for="compromiso" class="form-label">Compromiso de Estudiantes</label>
+    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+  </div>
+
+  <div class="mb-3">
+    <label for="proximoSeguimiento" class="form-label">Fecha próximo seguimiento</label>
+    <input type="datetime-local" class="form-control" id="proximoSeguimiento" name="proximoSeguimiento"></input>
+  </div>
+
+  <div class="mb-3">
+    <label for="nombreDeQuienRealizaLaAtencion" class="form-label">Nombre de quien realiza la atención</label>
+    <input type="text" class="form-control" id="nombreDeQuienRealizaLaAtencion" name="nombreDeQuienRealizaLaAtencion" value="Amparo Garcés Vidal"></input>
+  </div>
+
+
+
+
+  <div class="">
+    <button type="submit" class="btn btn-lg btn-primary w-100 mb-5 mt-3">Registrar</button>
+  </div>
 
 </form>
+
+
 
 <script src="{% static 'form/script.js' %}"></script>
 

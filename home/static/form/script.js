@@ -86,21 +86,122 @@ document.addEventListener("DOMContentLoaded", function () {
     "Trastornos en conducta alimentaria",
     "Delitos, según la ley colombiana",
   ];
+  var lineaDeAtencion = ["Orientación", "Prevención", "Intervención"]
   var tipoDeAtencion = ["Individual", "Familiar", "Grupal"]
   var entidadPrestadoraDeSalud = [
-  "MALLAMAS",
-  "AIC",
-  "ASMET SALUD",
-  "SALUD VIDA",
-  "EMSANAR",
-  "SISBEN",
-  "COOMEVA",
-  "NUEVA EPS",
-  "SOS",
-  "COSMITET",
-  "SANITAS"
-];
-  var estudiantes = ['Juan', 'Camilo']
+    "MALLAMAS",
+    "AIC",
+    "ASMET SALUD",
+    "SALUD VIDA",
+    "EMSANAR",
+    "SISBEN",
+    "COOMEVA",
+    "NUEVA EPS",
+    "SOS",
+    "COSMITET",
+    "SANITAS",
+  ];
+  var estudiantes = ["Juan", "Camilo"];
+
+  // --------------------
+  var sexo = ["Mujer", "Hombre", "Otro"];
+  var genero = ["Masculino", "Femenino", "Otro"];
+  var parentesco = [
+    "Padre",
+    "Madre",
+    "Tio o Tia",
+    "Abuelo o Abuela Paterna",
+    "Abuelo o Abuela Materna",
+    "Filia Política",
+    "Pareja",
+  ];
+  var ocupacion = [
+    "Agricultor",
+    "Conductor",
+    "Docente",
+    "Ama de Casa",
+    "Jornalero",
+    "Empresario",
+    "Independiente",
+    "Comerciante",
+  ];
+
+  var nivelEducativo = [
+    "No sabe no responde",
+    "No estudió",
+    "Primaria",
+    "Secundaria",
+    "Bachiller",
+    "Técnico",
+    "Tecnólogo",
+    "Pregrado o Profesional",
+    "Postgrado",
+    "Doctorado",
+  ];
+
+  var estadoCivil = [
+    "No sabe no responde",
+    "Soltero",
+    "Casado",
+    "Divorciado",
+    "Viudo",
+    "Separado",
+    "Unión Libre",
+    "Comprometido",
+    "N/A",
+  ];
+
+  var tipoDeFamilia = [
+    "nuclear / heteroparental",
+    "monoparental",
+    "reconstituida",
+    "extensa",
+    "ensamblada",
+    "familia de acogida",
+    "adoptiva",
+    "biparental",
+    "homoparental",
+    "Inmigrante",
+    "Transnacional",
+  ];
+
+  // -----------------------
+  var condicionDeDiscapacidad = [
+    "No",
+    "Si",
+  ]
+
+  var TipoDeDiscapacidad = [
+    "Sensorial",
+    "Intelectual",
+    "Física",
+    "Mental / Psicosocial",
+  ]
+
+  var talentoYCapacidadesExepcionales = [
+    "Talento científico",
+    "Talento Tecnológico",
+    "Talento Atlético Deportivo",
+    "Doble excepcionalidad",
+    "Talento subjetivo artístico"
+  ];
+
+  var RemitidoA = [
+    "Sí",
+    "No remitido",
+    "Coordinación de convivencia (Protocolo de Atención)",
+    "Sector salud (Médico general, Fonoaudiología, Psicología)",
+    "Sector protección (Comisaria de familia, ICBF, Policía de Infancia y adolescencia)",
+    "Ministerio Público (personería, defensoría del pueblo, procuraduría, UARIV)",
+    "Sector Justicia (fiscalía, policía)",
+    "Comité de convivencia escolar",
+    "Consejo directivo",
+    "Consejo académico",
+    "Seguimiento de orientación",
+    "Atención de necesidades diversas de aprendizaje (PIAR)",
+  ];
+
+  var estadoDelCaso = ["Abierto", "Cerrado"];
 
   // Fin Variables
   var dataSets = [
@@ -108,9 +209,22 @@ document.addEventListener("DOMContentLoaded", function () {
     sede,
     remitidoPor,
     posiblesMotivosDeAtencion,
+    lineaDeAtencion,
     tipoDeAtencion,
     entidadPrestadoraDeSalud,
     estudiantes,
+    sexo,
+    genero,
+    parentesco,
+    ocupacion,
+    nivelEducativo,
+    estadoCivil,
+    tipoDeFamilia,
+    condicionDeDiscapacidad,
+    TipoDeDiscapacidad,
+    talentoYCapacidadesExepcionales,
+    RemitidoA,
+    estadoDelCaso
 
   ];
 
@@ -134,3 +248,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fin Variables de completado automático
 })
+
+
+// Código para archivos multiples
+document.addEventListener("DOMContentLoaded", function () {
+  const filesInput = document.getElementById('files');
+  const preview = document.getElementById('preview');
+  const form = document.getElementById('uploadForm');
+
+  filesInput.addEventListener('change', function (event) {
+    preview.innerHTML = '';
+    for (let i = 0; i < filesInput.files.length; i++) {
+      let file = filesInput.files[i];
+      let fileDiv = document.createElement('div');
+      fileDiv.textContent = file.name;
+      fileDiv.className = 'mb-2';
+      let deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Eliminar';
+      deleteButton.className = 'btn text-white btn-sm ms-2';
+      deleteButton.onclick = function () {
+        // Eliminar el archivo del input.
+        let newFileList = Array.from(filesInput.files).filter(function (f) {
+          return f.name !== file.name;
+        });
+        filesInput.files = new DataTransfer().files;
+        newFileList.forEach(function (f) {
+          let dt = new DataTransfer();
+          dt.items.add(f);
+          filesInput.files = dt.files;
+        });
+        // Eliminar la vista previa del archivo.
+        fileDiv.remove();
+      };
+      fileDiv.appendChild(deleteButton);
+      preview.appendChild(fileDiv);
+    }
+  });
+
+  // form.addEventListener('submit', function (event) {
+  //   event.preventDefault();
+  //   // Aquí podrías usar FormData para enviar los archivos a Django con AJAX.
+  //   let formData = new FormData(form);
+  //   // Ejemplo de cómo enviar los datos usando fetch.
+  //   fetch('/upload/', {
+  //     method: 'POST',
+  //     body: formData,
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => console.log(data))
+  //   .catch(error => console.error(error));
+  // });
+});
