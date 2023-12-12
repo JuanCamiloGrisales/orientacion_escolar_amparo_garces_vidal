@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Actualizar lista de estudiantes</h1>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group mb-5">
+                        <label for="file">Seleccione el archivo de Excel</label>
+                        <input type="file" name="file" id="file" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </form>
+                {% if error %}<div class="alert alert-danger" role="alert">¡Algo salió mal!</div>{% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -5,3 +5,7 @@ def home(request):
     context = {}
     
     return render(request, 'home.html', context)
+
+def actualizar(request):
+    
+    return render(request, 'actualizar.html')
