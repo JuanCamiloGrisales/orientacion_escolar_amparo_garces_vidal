@@ -1,19 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Actualizar lista de estudiantes</h1>
-                <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-group mb-5">
-                        <label for="file">Seleccione el archivo de Excel</label>
-                        <input type="file" name="file" id="file" class="form-control">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Actualizar lista de estudiantes</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mb-5">
+                    <label for="file">Seleccione el archivo de Excel</label>
+                    <input type="file" name="file" id="file" class="form-control" accept=".xlsx"
+                        onchange="validateExcelFile(this)">
+
+                    <div id="errorBanner" class="alert alert-danger" role="alert" style="display:none;">
+                        Solo se permiten archivos con extensión .xlsx
                     </div>
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                </form>
-                {% if error %}<div class="alert alert-danger" role="alert">¡Algo salió mal!</div>{% endif %}
-            </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+            {% if error %}<div class="alert alert-danger" role="alert">¡Algo salió mal!</div>{% endif %}
         </div>
     </div>
+</div>
+
+<script>
+    function validateExcelFile(input) {
+        var fileName = input.value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile !== "xlsx") {
+            // Show the error banner
+            document.getElementById('errorBanner').style.display = 'block';
+
+            // Clear the input
+            input.value = '';
+        } else {
+            // Hide the error banner if the file is valid
+            document.getElementById('errorBanner').style.display = 'none';
+        }
+    }
+</script>
 {% endblock content %}

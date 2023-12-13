@@ -57,13 +57,12 @@
   <h2 class="mt-5 mb-3 font-weight-bold">Datos Personales</h2>
 
   <div class="mb-3 autocomplete-wrapper">
-    <label for="nombreEstudiante" class="form-label">Nombre del Estudiante</label>
+    <label for="nombreEstudiante" class="form-label">Nombre Completo del Estudiante</label>
     <input type="text" class="form-control autocomplete-input" id="nombreEstudiante" name="nombreEstudiante"
       placeholder="Ingrese el nombre del alumno para autocompletar">
     <ul class="list-group autocomplete-results"></ul>
+    {{ alumnos|json_script:"alumnos" }}
   </div>
-
-  {% include 'normal.html' with field_label='Nombre Completo del Estudiante' field_id='nombreCompletoEstudiante' %}
 
   <div class="row mb-3">
     <div class="col">
@@ -145,11 +144,13 @@
 
   {% include 'autocomplete.html' with field_label='Condición de Discapacidad' field_id='condicionDeDiscapacidad' %}
   {% include 'autocomplete.html' with field_label='Tipo de Discapacidad' field_id='tipoDeDiscapacidad' %}
-  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales' field_id='talentoYCapacidadesExepcionales' %}
+  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales'
+  field_id='talentoYCapacidadesExepcionales' %}
 
   <div class="mb-3">
     <label for="relatoEntrevistado" class="form-label">Relato del Entrevistado</label>
-    <textarea class="form-control" id="relatoEntrevistado" name="relatoEntrevistado" rows="3">DESCRIPCIÓN DE SITUACIONES DE RIESGO A NIVEL INDIVIDUAL (Antecedentes Relevantes Personales Y/O Familiares Médicos, Quirúrgicos, Psicológicos, Redes de Apoyo, Factores Protectores)</textarea>
+    <textarea class="form-control" id="relatoEntrevistado" name="relatoEntrevistado"
+      rows="3">DESCRIPCIÓN DE SITUACIONES DE RIESGO A NIVEL INDIVIDUAL (Antecedentes Relevantes Personales Y/O Familiares Médicos, Quirúrgicos, Psicológicos, Redes de Apoyo, Factores Protectores)</textarea>
   </div>
   <h2 class="mt-5 mb-3 font-weight-bold">Apreciación de la Docente Orientadora</h2>
 
@@ -162,10 +163,10 @@ POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida
   </div>
 
   {% include 'autocomplete.html' with field_label='Activación de Ruta' field_id='activacionDeRuta' %}
-  
+
   <div class="mb-3">
     <label for="procesos convivencia" class="form-label">Procesos de Convivencia</label>
-<textarea class="form-control" id="procesos convivencia" name="procesos convivencia" rows="20">Institución Educativa Escuela Normal Superior “Claudina Múnera”
+    <textarea class="form-control" id="procesos convivencia" name="procesos convivencia" rows="20">Institución Educativa Escuela Normal Superior “Claudina Múnera”
 Autorización de Funcionamiento de Programa de Formación Complementaria de Educadores
 Resolución No. 7780 del 6 de Septiembre de 2010 del Ministerio de Educación Nacional
 Licencia de Funcionamiento y Reconocimiento Oficial
@@ -202,7 +203,8 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
 
   <div class="mb-3">
     <label for="nombreDeQuienRealizaLaAtencion" class="form-label">Nombre de quien realiza la atención</label>
-    <input type="text" class="form-control" id="nombreDeQuienRealizaLaAtencion" name="nombreDeQuienRealizaLaAtencion" value="Amparo Garcés Vidal"></input>
+    <input type="text" class="form-control" id="nombreDeQuienRealizaLaAtencion" name="nombreDeQuienRealizaLaAtencion"
+      value="Amparo Garcés Vidal"></input>
   </div>
 
 

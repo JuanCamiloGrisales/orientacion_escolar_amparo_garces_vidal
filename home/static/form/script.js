@@ -101,7 +101,14 @@ document.addEventListener("DOMContentLoaded", function () {
     "COSMITET",
     "SANITAS",
   ];
-  var estudiantes = ["Juan", "Camilo"];
+  var alumnosData = JSON.parse(document.getElementById('alumnos').textContent);
+  var estudiantes = [];
+  
+  for (var nombreCompleto in alumnosData) {
+    if (alumnosData.hasOwnProperty(nombreCompleto)) {
+      estudiantes.push(nombreCompleto);
+    }
+  }
 
   // --------------------
   var sexo = ["Mujer", "Hombre", "Otro"];
@@ -236,13 +243,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   
+  var alumnosData = JSON.parse(document.getElementById('alumnos').textContent);
+
   // Variables de completado automático
-  const nombreCompletoEstudiante = document.getElementById("nombreCompletoEstudiante");
   const tipoDocumentoEstudiante = document.getElementById("tipoDocumentoEstudiante");
   const numeroDocumentoEstudiante = document.getElementById("numeroDocumentoEstudiante");
   const epsEstudiante = document.getElementById("epsEstudiante");
   const fechaNacimientoEstudiante = document.getElementById("fechaNacimientoEstudiante");
   const lugarNacimientoEstudiante = document.getElementById("lugarNacimientoEstudiante");
+  const direccion = document.getElementById("direccion");
+
+  // Input:
+  var inputNombreEstudiante = document.getElementById("nombreEstudiante");
+
+  inputNombreEstudiante.addEventListener("input", function () {
+    Valor = inputNombreEstudiante.value;
+
+    if (alumnosData.hasOwnProperty(Valor)) {
+      tipoDocumentoEstudiante.value = alumnosData[Valor].tipo_documento;
+      numeroDocumentoEstudiante.value = alumnosData[Valor].numero_documento;
+      epsEstudiante.value = alumnosData[Valor].eps;
+      fechaNacimientoEstudiante.value = alumnosData[Valor].fecha_nacimiento;
+      lugarNacimientoEstudiante.value = alumnosData[Valor].lugar_nacimiento;
+      direccion.value = alumnosData[Valor].barrio;
+    }
+  })
   
 
 
