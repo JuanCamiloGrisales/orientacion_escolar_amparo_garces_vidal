@@ -11,13 +11,8 @@
   {% csrf_token %}
 
   <div class="mb-3">
-    <label for="numeroConsecutivo" class="form-label">Número Consecutivo</label>
-    <input type="number" class="form-control-sm text-center" id="numeroConsecutivo" name="numeroConsecutivo" value="1">
-  </div>
-
-  <div class="mb-3">
-    <label for="fechaDeAtencion" class="form-label">Fecha de atención</label>
-    <input type="datetime-local" class="form-control-sm" id="fechaDeAtencion" name="fechaDeAtencion"
+    <label for="fecha" class="form-label">Fecha de atención</label>
+    <input autocomplete="off" type="datetime-local" class="form-control-sm" id="fecha" name="fecha"
       value="{% now 'Y-m-d H:i' %}">
   </div>
 
@@ -26,13 +21,13 @@
 
   <div class="row mb-3">
     <div class="col-sm">
-      <label for="nombreEstablecimiento" class="form-label">Nombre del Establecimiento Educativo</label>
-      <input type="text" class="form-control form-control" id="nombreEstablecimiento" name="nombreEstablecimiento"
+      <label for="institucion" class="form-label">Nombre del Establecimiento Educativo</label>
+      <input type="text" class="form-control" id="institucion" name="institucion"
         value='Escuela Normal Superior "Claudina Múnera"'>
     </div>
     <div class="col-sm">
-      <label for="codigoDane" class="form-label">Código DANE</label>
-      <input type="text" class="form-control" id="codigoDane" name="codigoDane" value="117013001167">
+      <label for="dane" class="form-label">Código DANE</label>
+      <input type="text" class="form-control" id="dane" name="dane" value="117013001167">
     </div>
   </div>
 
@@ -58,7 +53,7 @@
 
   <div class="mb-3 autocomplete-wrapper">
     <label for="nombreEstudiante" class="form-label">Nombre Completo del Estudiante</label>
-    <input type="text" class="form-control autocomplete-input" id="nombreEstudiante" name="nombreEstudiante"
+    <input autocomplete="off" type="text" class="form-control autocomplete-input" id="nombreEstudiante" name="nombreEstudiante"
       placeholder="Ingrese el nombre del alumno para autocompletar">
     <ul class="list-group autocomplete-results"></ul>
     {{ alumnos|json_script:"alumnos" }}
@@ -66,13 +61,10 @@
 
   <div class="row mb-3">
     <div class="col">
-      <label for="tipoDocumentoEstudiante" class="form-label">Tipo de Documento</label>
-      <input type="text" class="form-control" id="tipoDocumentoEstudiante" name="tipoDocumentoEstudiante">
+      {% include 'normal.html' with field_label='Tipo de Documento' field_id='tipoDocumentoEstudiante' %}
     </div>
     <div class="col">
-      <label for="numeroDocumentoEstudiante" class="form-label">Número de Documento</label>
-      <input type="text" class="form-control" id="numeroDocumentoEstudiante" name="numeroDocumentoEstudiante">
-
+      {% include 'normal.html' with field_label='Número de Documento' field_id='numeroDocumentoEstudiante' %}
     </div>
   </div>
 
@@ -85,7 +77,7 @@
     <input type="text" aria-label="Lugar" id="lugarNacimientoEstudiante" class="form-control">
   </div>
 
-  {% include 'normal.html' with field_id='acudiente' field_label='Acudiente' %}
+  {% include 'normal.html' with field_label='Acudiente'  field_id='acudiente' %}
 
   {% include 'normal.html' with field_label='Teléfono del Acudiente' field_id='telefonoAcudiente' %}
 
@@ -103,29 +95,29 @@
 
   <div class="row mb-3">
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Sexo' field_id='sexoComposicionFamiliar' %}
+      {% include 'autocomplete.html' with field_label='Sexo' field_id='sexo' %}
     </div>
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Género' field_id='generoComposicionFamiliar' %}
+      {% include 'autocomplete.html' with field_label='Género' field_id='genero' %}
     </div>
   </div>
-  {% include 'autocomplete.html' with field_label='Parentesco' field_id='parentescoComposicionFamiliar' %}
-  {% include 'normal.html' with field_label='Nombre' field_id='nombreComposicionFamiliar' %}
-  {% include 'normal.html' with field_label='Edad' field_id='edadComposicionFamiliar' %}
-  {% include 'autocomplete.html' with field_label='Ocupación' field_id='ocupacionComposicionFamiliar' %}
-  {% include 'autocomplete.html' with field_label='Nivel Educativo' field_id='nivelEducativoComposicionFamiliar' %}
+  {% include 'autocomplete.html' with field_label='Parentesco' field_id='parentesco' %}
+  {% include 'normal.html' with field_label='Nombre' field_id='nombre' %}
+  {% include 'normal.html' with field_label='Edad' field_id='edad' %}
+  {% include 'autocomplete.html' with field_label='Ocupación' field_id='ocupacion' %}
+  {% include 'autocomplete.html' with field_label='Nivel Educativo' field_id='nivelEducativo' %}
   <div class="row mb-3">
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Estado Civil' field_id='estadoCivilComposicionFamiliar' %}
+      {% include 'autocomplete.html' with field_label='Estado Civil' field_id='estadoCivil' %}
     </div>
     <div class="col">
-      {% include 'normal.html' with field_label='Número de Hijos' field_id='numeroDeHijosComposicionFamiliar' %}
+      {% include 'normal.html' with field_label='Número de Hijos' field_id='numeroDeHijos' %}
 
     </div>
   </div>
-  {% include 'normal.html' with field_label='Teléfono' field_id='telefonoComposicionFamiliar' %}
-  {% include 'normal.html' with field_label='Lugar de Residencia' field_id='lugarDeResidenciaComposicionFamiliar' %}
-  {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoDeFamiliaComposicionFamiliar' %}
+  {% include 'normal.html' with field_label='Teléfono' field_id='telefono' %}
+  {% include 'normal.html' with field_label='Lugar de Residencia' field_id='lugarResidencia' %}
+  {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoFamilia' %}
 
   <h2 class="mt-5 mb-3 font-weight-bold">Acuerdos de Atención</h2>
 
@@ -135,17 +127,16 @@
   </div>
 
   <div class="mb-3">
-    <label for="files" class="form-label">Acuerdos Previos</label>
-    <input class="form-control" type="file" id="files" name="files" multiple>
+    <label for="acuerdosPrevios" class="form-label">Acuerdos Previos</label>
+    <input class="form-control" type="file" id="acuerdosPrevios" name="acuerdosPrevios" multiple>
   </div>
   <div id="preview" class="mb-2"></div>
 
   <h2 class="mt-5 mb-3 font-weight-bold">Descripción de Situaciones de Riesgo a Nivel Individual</h2>
 
-  {% include 'autocomplete.html' with field_label='Condición de Discapacidad' field_id='condicionDeDiscapacidad' %}
-  {% include 'autocomplete.html' with field_label='Tipo de Discapacidad' field_id='tipoDeDiscapacidad' %}
-  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales'
-  field_id='talentoYCapacidadesExepcionales' %}
+  {% include 'autocomplete.html' with field_label='Condición de Discapacidad' field_id='condicionDiscapacidad' %}
+  {% include 'autocomplete.html' with field_label='Tipo de Discapacidad' field_id='tipoDiscapacidad' %}
+  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales' field_id='talentoYCapacidadesExepcionales' %}
 
   <div class="mb-3">
     <label for="relatoEntrevistado" class="form-label">Relato del Entrevistado</label>
@@ -155,18 +146,18 @@
   <h2 class="mt-5 mb-3 font-weight-bold">Apreciación de la Docente Orientadora</h2>
 
   <div class="mb-3">
-    <label for="apreciacion" class="form-label">Observaciones</label>
-    <textarea class="form-control" id="apreciacion" name="apreciacion" rows="15">Nota: La información consignada no constituye en ningún caso un diagnóstico o concepto medico y/o profesional sobre la salud mental o física de la persona a quien se refiere, ni tampoco sustituye el informe que deben adelantar las autoridades competentes sobre la presunta comisión de algún delito. Este informe es una ficha de seguimiento de la profesional de orientación escolar para darle adecuada atención y acompañamiento en el proceso de formación dentro del sistema de convivencia escolar.
+    <label for="observaciones" class="form-label">Observaciones</label>
+    <textarea class="form-control" id="observaciones" name="observaciones" rows="15">Nota: La información consignada no constituye en ningún caso un diagnóstico o concepto medico y/o profesional sobre la salud mental o física de la persona a quien se refiere, ni tampoco sustituye el informe que deben adelantar las autoridades competentes sobre la presunta comisión de algún delito. Este informe es una ficha de seguimiento de la profesional de orientación escolar para darle adecuada atención y acompañamiento en el proceso de formación dentro del sistema de convivencia escolar.
 
 POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida en el siguiente texto contiene datos sensibles y privados sobre terceros; se solicita mantener absoluta confidencialidad sobre la identidad y circunstancias descriptas; quedando bajo la responsabilidad de quienes reciben este informe la violación del derecho a la intimidad y el respeto a la privacidad. Es preciso abstenerse de exponer en reuniones y comités con carácter informativos o instancias de toma de decisiones estratégicas la identidad, ubicación y demás datos que posibiliten la identificación de las personas de las que trata este este reporte. 
 </textarea>
   </div>
 
-  {% include 'autocomplete.html' with field_label='Activación de Ruta' field_id='activacionDeRuta' %}
+  {% include 'autocomplete.html' with field_label='Activación de Ruta' field_id='activacionRuta' %}
 
   <div class="mb-3">
-    <label for="procesos convivencia" class="form-label">Procesos de Convivencia</label>
-    <textarea class="form-control" id="procesos convivencia" name="procesos convivencia" rows="20">Institución Educativa Escuela Normal Superior “Claudina Múnera”
+    <label for="procesosConvivencia" class="form-label">Procesos de Convivencia</label>
+    <textarea class="form-control" id="procesosConvivencia" name="procesosConvivencia" rows="20">Institución Educativa Escuela Normal Superior “Claudina Múnera”
 Autorización de Funcionamiento de Programa de Formación Complementaria de Educadores
 Resolución No. 7780 del 6 de Septiembre de 2010 del Ministerio de Educación Nacional
 Licencia de Funcionamiento y Reconocimiento Oficial
@@ -175,35 +166,35 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
   </div>
 
   <div class="mb-3">
-    <label for="compromiso" class="form-label">Remisión</label>
-    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+    <label for="remision" class="form-label">Remisión</label>
+    <input type="file" class="form-control" id="remision" name="remision" multiple></input>
   </div>
 
   <div class="mb-3">
-    <label for="compromiso" class="form-label">Piar</label>
-    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+    <label for="piar" class="form-label">Piar</label>
+    <input type="file" class="form-control" id="piar" name="piar" multiple></input>
   </div>
 
-  {% include 'autocomplete.html' with field_label='Estado del Caso' field_id='estadoDelCaso' %}
+  {% include 'autocomplete.html' with field_label='Estado del Caso' field_id='estadoCaso' %}
 
   <div class="mb-3">
-    <label for="compromiso" class="form-label">Compromiso de Padres</label>
-    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
-  </div>
-
-  <div class="mb-3">
-    <label for="compromiso" class="form-label">Compromiso de Estudiantes</label>
-    <input type="file" class="form-control" id="compromiso" name="compromiso"></input>
+    <label for="compromisoPadres" class="form-label">Compromiso de Padres</label>
+    <input type="file" class="form-control" id="compromisoPadres" name="compromisoPadres" multiple></input>
   </div>
 
   <div class="mb-3">
-    <label for="proximoSeguimiento" class="form-label">Fecha próximo seguimiento</label>
-    <input type="datetime-local" class="form-control" id="proximoSeguimiento" name="proximoSeguimiento"></input>
+    <label for="compromisoEstudiantes" class="form-label">Compromiso de Estudiantes</label>
+    <input type="file" class="form-control" id="compromisoEstudiantes" name="compromisoEstudiantes" multiple></input>
   </div>
 
   <div class="mb-3">
-    <label for="nombreDeQuienRealizaLaAtencion" class="form-label">Nombre de quien realiza la atención</label>
-    <input type="text" class="form-control" id="nombreDeQuienRealizaLaAtencion" name="nombreDeQuienRealizaLaAtencion"
+    <label for="fechaProximoSeguimiento" class="form-label">Fecha próximo seguimiento</label>
+    <input type="datetime-local" class="form-control" id="fechaProximoSeguimiento" name="fechaProximoSeguimiento"></input>
+  </div>
+
+  <div class="mb-3">
+    <label for="nombreOrientadora" class="form-label">Nombre de quien realiza la atención</label>
+    <input type="text" class="form-control" id="nombreOrientadora" name="nombreOrientadora"
       value="Amparo Garcés Vidal"></input>
   </div>
 

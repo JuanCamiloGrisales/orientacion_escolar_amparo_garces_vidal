@@ -111,8 +111,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // --------------------
-  var sexo = ["Mujer", "Hombre", "Otro"];
-  var genero = ["Masculino", "Femenino", "Otro"];
+  var sexo = ["Otro", "Mujer", "Hombre",];
+  var genero = ["Otro", "Masculino", "Femenino"];
   var parentesco = [
     "Padre",
     "Madre",
@@ -256,18 +256,32 @@ document.addEventListener("DOMContentLoaded", function () {
   // Input:
   var inputNombreEstudiante = document.getElementById("nombreEstudiante");
 
-  inputNombreEstudiante.addEventListener("input", function () {
-    Valor = inputNombreEstudiante.value;
-
-    if (alumnosData.hasOwnProperty(Valor)) {
-      tipoDocumentoEstudiante.value = alumnosData[Valor].tipo_documento;
-      numeroDocumentoEstudiante.value = alumnosData[Valor].numero_documento;
-      epsEstudiante.value = alumnosData[Valor].eps;
-      fechaNacimientoEstudiante.value = alumnosData[Valor].fecha_nacimiento;
-      lugarNacimientoEstudiante.value = alumnosData[Valor].lugar_nacimiento;
-      direccion.value = alumnosData[Valor].barrio;
+  
+  function autocompleter() {
+      Valor = inputNombreEstudiante.value;
+      
+      if (alumnosData.hasOwnProperty(Valor)) {
+        tipoDocumentoEstudiante.value = alumnosData[Valor].tipo_documento;
+        numeroDocumentoEstudiante.value = alumnosData[Valor].numero_documento;
+        epsEstudiante.value = alumnosData[Valor].eps;
+        fechaNacimientoEstudiante.value = alumnosData[Valor].fecha_nacimiento;
+        lugarNacimientoEstudiante.value = alumnosData[Valor].lugar_nacimiento;
+        direccion.value = alumnosData[Valor].barrio;
+      } else {
+        tipoDocumentoEstudiante.value = "";
+        numeroDocumentoEstudiante.value = "";
+        epsEstudiante.value = "";
+        fechaNacimientoEstudiante.value = "";
+        lugarNacimientoEstudiante.value = "";
+        direccion.value = "";
+      }
     }
-  })
+
+  inputNombreEstudiante.addEventListener("input", autocompleter);
+  inputNombreEstudiante.addEventListener("change", autocompleter);
+  inputNombreEstudiante.addEventListener("click", autocompleter);
+  inputNombreEstudiante.addEventListener("keyup", autocompleter);
+    
   
 
 

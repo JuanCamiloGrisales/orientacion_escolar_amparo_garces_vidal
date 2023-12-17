@@ -3,4 +3,5 @@ from .views import *
 
 urlpatterns = [
     path('', FormularioDeRegistroDeAtencion, name='form'),
+    path('<alumno>/', Alumno, name='detail'),
 ]

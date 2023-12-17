@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block extrahead %}
+{% load static %}
+<style>
+    .card:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock extrahead %}
+
 {% block content %}
 <div class="row align-items-center">
     <!-- Dropdown a la izquierda -->
@@ -7,13 +16,16 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                Filtrar
+                {{mode}}
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Orientación</a></li>
-                <li><a class="dropdown-item" href="#">Prevención</a></li>
-                <li><a class="dropdown-item" href="#">Intervención</a></li>
-                <li><a class="dropdown-item" href="#">Mostrar todo</a></li> 
+                <li><a class="dropdown-item" href="{% url 'home' %}">Filtrar</a></li>
+                <li><a id="orientacion-link" class="dropdown-item"
+                        href="{% url 'filter' filter='orientacion' %}">Orientación</a></li>
+                <li><a id="prevencion-link" class="dropdown-item"
+                        href="{% url 'filter' filter='prevencion' %}">Prevención</a></li>
+                <li><a id="intervencion-link" class="dropdown-item" href="{% url 'filter' filter=" intervencion"
+                        %}">Intervención</a></li>
             </ul>
         </div>
     </div>
@@ -27,22 +39,23 @@
     </div>
 </div>
 
+<div class="row mt-5">
+    {% for estudiante in registros %}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4 registro">
+        <a href="{% url 'detail' estudiante %}" class="text-decoration-none">
+            <div class="card rounded">
+                <div class="card-body">
+                    <h4 class="card-title text-center">{{ estudiante }}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<script src="{% static 'home/index.js' %}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var dropdownItems = document.querySelectorAll('.dropdown-item');
-        var dropdownButton = document.querySelector('#dropdownMenuButton');
 
-        dropdownItems.forEach(function (item) {
-            item.addEventListener('click', function (e) {
-                // Evita el comportamiento por defecto del enlace
-                e.preventDefault();
-                // Cambia el texto del botón al valor del elemento seleccionado
-                dropdownButton.textContent = this.textContent;
-                // Cierra el dropdown si está abierto
-                var dropdownElement = bootstrap.Dropdown.getInstance(dropdownButton);
-                dropdownElement.hide();
-            });
-        });
-    });
+    })
 </script>
 {% endblock content %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ alumno }}</h1>
+
+<div class="row mt-5">
+    {% for registro in registros %}
+
+    <div class="col mb-4 col-md-6">
+        <div class="card rounded">
+            <div class="card-title mx-3 mt-3">
+                <h5 class="card-title">{{ registro.consecutivo }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ registro.resumen }}</p>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

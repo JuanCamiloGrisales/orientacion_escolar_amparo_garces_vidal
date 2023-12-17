@@ -1,10 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 import os
+from registro_de_atencion.models import Registro
 
 # Create your views here.
 def home(request):
-    context = {}
+    registros = Registro.objects.values_list('nombreEstudiante', flat=True).distinct()
+    
+    context = {'registros': registros,
+               'mode': 'Filtrar'}
+    
+    return render(request, 'home.html', context)
+
+def filter(request, filter='orientacion'):
+    if filter == 'orientacion': 
+        registros = Registro.objects.filter(lineaDeAtencion='Orientación')
+        mode = 'Orientación'
+    elif filter == 'prevencion':
+        registros = Registro.objects.filter(lineaDeAtencion='Prevención')
+        mode = 'Prevención'
+    elif filter == 'intervencion':
+        registros = Registro.objects.filter(lineaDeAtencion='Intervención')
+        mode = 'Intervención'
+
+    context = {'registros': registros,
+               'mode': mode}
     
     return render(request, 'home.html', context)
 
@@ -19,5 +39,7 @@ def actualizar(request):
                 for chunk in excel_file.chunks():
                     destination.write(chunk)
         
-    
+        return redirect('home')
+        
+
     return render(request, 'actualizar.html')

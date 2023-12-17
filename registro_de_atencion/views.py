@@ -1,77 +1,76 @@
 from django.shortcuts import render
-from django.conf import settings
-import csv
-import os
-import pandas as pd
+import locale
+from .forms import RegistroForm
+from .files_reader import configurar_municipios, configurar_estudiantes
+from .models import Registro
+from usellm import Message, Options, UseLLM
 
-# Create your views here.
-
+locale.setlocale(locale.LC_ALL, 'es_CO.UTF-8')
+service = UseLLM(service_url="https://usellm.org/api/llm")
 
 def FormularioDeRegistroDeAtencion(request):
     context = {}
+
+    if request.method == 'POST':
+        form = RegistroForm(request.POST, request.FILES)
+        if form.is_valid():
+
+            registro = form.save(commit=False)
+
+            registro.form_data = request.POST
+
+            try:
+                texto_a_reemplazar = """
+Nota: La información consignada no constituye en ningún caso un diagnóstico o concepto medico y/o profesional sobre la salud mental o física de la persona a quien se refiere, ni tampoco sustituye el informe que deben adelantar las autoridades competentes sobre la presunta comisión de algún delito. Este informe es una ficha de seguimiento de la profesional de orientación escolar para darle adecuada atención y acompañamiento en el proceso de formación dentro del sistema de convivencia escolar.
+
+POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida en el siguiente texto contiene datos sensibles y privados sobre terceros; se solicita mantener absoluta confidencialidad sobre la identidad y circunstancias descriptas; quedando bajo la responsabilidad de quienes reciben este informe la violación del derecho a la intimidad y el respeto a la privacidad. Es preciso abstenerse de exponer en reuniones y comités con carácter informativos o instancias de toma de decisiones estratégicas la identidad, ubicación y demás datos que posibiliten la identificación de las personas de las que trata este este reporte. """
+                observaciones = str(request.POST.get('observaciones', ''))
+                observaciones = observaciones.replace(texto_a_reemplazar, '')
+
+                mensaje = f"Crea un resumen muy corto de tan solo 1 o máximo 2 renglones de la siguiente observación.\nLa observación es la siguiente: {observaciones}'"
+
+                print(mensaje)
+
+                messages = [
+                    Message(role="system", content="Eres un robot psicoorientador con experiencia haciendo observaciones a tus pacientes niños y adolecentes"),
+                    Message(role="user", content=mensaje),
+                ]
+
+                options = Options(messages=messages)
+                response = service.chat(options)
+
+                registro.resumen = response.content
+            
+            except:
+                registro.resumen = 'Resumen no disponible'
+            
+            registro.save()
+
+            context['success'] = 'Registro guardado correctamente.'
+            return render(request, 'form/form.html', context)
+
+    else:
+        pass
+
+    # Configuración de valores por defecto
     try:
-        # Configuración municipios
-        csv_municipios = os.path.join(
-            settings.BASE_DIR, 'uploads/municipios.csv')
-        municipios = []
-
-        with open(csv_municipios, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                municipios.append(row['MUNICIPIO'])
-
+        municipios = configurar_municipios()
         context['municipios'] = municipios
-
-        # Configuración Estudiantes
-        excel_alumnos_path = os.path.join(
-            settings.BASE_DIR, 'uploads/estudiantes.xlsx')
-        try:
-            excel_alumnos = pd.read_excel(excel_alumnos_path)
-        except FileNotFoundError:
-            raise Exception(f'Archivo {excel_alumnos_path} no encontrado.')
-        except pd.errors.EmptyDataError:
-            raise Exception(
-                f'Archivo {excel_alumnos_path} está vacío o con formato incorrecto.')
-
-        alumnos = {}
-
-        for fila in excel_alumnos.iterrows():
-            nombre1 = fila[1]['NOMBRE1'] if pd.notna(
-                fila[1]['NOMBRE1']) else ''
-            nombre2 = fila[1]['NOMBRE2'] if pd.notna(
-                fila[1]['NOMBRE2']) else ''
-            apellido1 = fila[1]['APELLIDO1'] if pd.notna(
-                fila[1]['APELLIDO1']) else ''
-            apellido2 = fila[1]['APELLIDO2'] if pd.notna(
-                fila[1]['APELLIDO2']) else ''
-
-            nombre_completo = " ".join(
-                filter(None, [nombre1, nombre2, apellido1, apellido2]))
-
-            tipo_documento = fila[1]['TIPODOC'] if pd.notna(
-                fila[1]['TIPODOC']) else ''
-            numero_documento = fila[1]['DOC'] if pd.notna(
-                fila[1]['DOC']) else ''
-            eps = fila[1]['EPS'] if pd.notna(fila[1]['EPS']) else ''
-            fecha_nacimiento = fila[1]['FECHA_NACIMIENTO'] if pd.notna(
-                fila[1]['FECHA_NACIMIENTO']) else ''
-            lugar_nacimiento = fila[1]['PAIS_ORIGEN'] if pd.notna(
-                fila[1]['PAIS_ORIGEN']) else ''
-            barrio = fila[1]['BARRIO'] if pd.notna(fila[1]['BARRIO']) else ''
-
-            alumnos[nombre_completo] = {
-                'tipo_documento': tipo_documento,
-                'numero_documento': numero_documento,
-                'eps': eps,
-                'fecha_nacimiento': fecha_nacimiento,
-                'lugar_nacimiento': lugar_nacimiento,
-                'barrio': barrio,
-            }
-
-        context['alumnos'] = alumnos
+        
+        estudiantes = configurar_estudiantes()
+        context['alumnos'] = estudiantes
 
     except Exception as e:
-        # Puedes optar por enviar un mensaje de error en el contexto o redirigir a una vista de error
-        context['error'] = 'Ocurrió un error al procesar los archivos de registro.'
+        context['error'] = 'Ocurrió un error al procesar los valores por defecto.'
 
-    return render(request, 'form.html', context)
+    # ------------------------------------
+
+    return render(request, 'form/form.html', context)
+
+def Alumno(request, alumno):
+    
+    registros = Registro.objects.filter(nombreEstudiante=alumno)
+    context = {'registros':registros,
+               'alumno':alumno}
+    
+    return render(request, 'alumno.html', context)
