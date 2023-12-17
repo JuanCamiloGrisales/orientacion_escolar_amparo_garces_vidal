@@ -24,8 +24,7 @@
                         href="{% url 'filter' filter='orientacion' %}">Orientación</a></li>
                 <li><a id="prevencion-link" class="dropdown-item"
                         href="{% url 'filter' filter='prevencion' %}">Prevención</a></li>
-                <li><a id="intervencion-link" class="dropdown-item" href="{% url 'filter' filter=" intervencion"
-                        %}">Intervención</a></li>
+                <li><a id="intervencion-link" class="dropdown-item" href="{% url 'filter' filter="intervencion"%}">Intervención</a></li>
             </ul>
         </div>
     </div>
@@ -40,9 +39,9 @@
 </div>
 
 <div class="row mt-5">
-    {% for estudiante in registros %}
+    {% for estudiante, slug in registros %}
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4 registro">
-        <a href="{% url 'detail' estudiante %}" class="text-decoration-none">
+        <a href="{% url 'detail' slug %}" class="text-decoration-none">
             <div class="card rounded">
                 <div class="card-body">
                     <h4 class="card-title text-center">{{ estudiante }}</h4>

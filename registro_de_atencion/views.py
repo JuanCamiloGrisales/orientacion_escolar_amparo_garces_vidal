@@ -8,8 +8,17 @@ from usellm import Message, Options, UseLLM
 locale.setlocale(locale.LC_ALL, 'es_CO.UTF-8')
 service = UseLLM(service_url="https://usellm.org/api/llm")
 
+mensaje_base = f"""You are an AI trained to summarize texts efficiently. Your task is to provide concise summaries of Spanish texts. When you receive a text, you must read it carefully and distill the information into its most essential points.
+
+Your summaries should be no longer than two lines, capturing the core message or narrative of the text. It is crucial that you maintain the original meaning and context while being succinct. You must also respond in Spanish, regardless of the language the instructions are given in.
+
+Remember, your goal is to provide a clear and concise summary that allows anyone to understand the gist of the text without needing to read the entire piece. Precision and brevity are key. The text is always about observations made by psychologists in the context of scholarly orientation, don't focus on the "note" and "personal data protection policy" terms, just the main text below.
+
+Here's the text to summarize:"""
+
 def FormularioDeRegistroDeAtencion(request):
     context = {}
+    context['envio'] = 'form'
 
     if request.method == 'POST':
         form = RegistroForm(request.POST, request.FILES)
@@ -20,19 +29,11 @@ def FormularioDeRegistroDeAtencion(request):
             registro.form_data = request.POST
 
             try:
-                texto_a_reemplazar = """
-Nota: La información consignada no constituye en ningún caso un diagnóstico o concepto medico y/o profesional sobre la salud mental o física de la persona a quien se refiere, ni tampoco sustituye el informe que deben adelantar las autoridades competentes sobre la presunta comisión de algún delito. Este informe es una ficha de seguimiento de la profesional de orientación escolar para darle adecuada atención y acompañamiento en el proceso de formación dentro del sistema de convivencia escolar.
-
-POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida en el siguiente texto contiene datos sensibles y privados sobre terceros; se solicita mantener absoluta confidencialidad sobre la identidad y circunstancias descriptas; quedando bajo la responsabilidad de quienes reciben este informe la violación del derecho a la intimidad y el respeto a la privacidad. Es preciso abstenerse de exponer en reuniones y comités con carácter informativos o instancias de toma de decisiones estratégicas la identidad, ubicación y demás datos que posibiliten la identificación de las personas de las que trata este este reporte. """
                 observaciones = str(request.POST.get('observaciones', ''))
-                observaciones = observaciones.replace(texto_a_reemplazar, '')
 
-                mensaje = f"Crea un resumen muy corto de tan solo 1 o máximo 2 renglones de la siguiente observación.\nLa observación es la siguiente: {observaciones}'"
-
-                print(mensaje)
+                mensaje = f"{mensaje_base} {observaciones}"
 
                 messages = [
-                    Message(role="system", content="Eres un robot psicoorientador con experiencia haciendo observaciones a tus pacientes niños y adolecentes"),
                     Message(role="user", content=mensaje),
                 ]
 
@@ -42,15 +43,13 @@ POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida
                 registro.resumen = response.content
             
             except:
-                registro.resumen = 'Resumen no disponible'
+                registro.resumen = ''
             
             registro.save()
 
             context['success'] = 'Registro guardado correctamente.'
             return render(request, 'form/form.html', context)
-
-    else:
-        pass
+        
 
     # Configuración de valores por defecto
     try:
@@ -64,13 +63,74 @@ POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida
         context['error'] = 'Ocurrió un error al procesar los valores por defecto.'
 
     # ------------------------------------
-
     return render(request, 'form/form.html', context)
 
 def Alumno(request, alumno):
     
-    registros = Registro.objects.filter(nombreEstudiante=alumno)
+    registros = Registro.objects.filter(slug=alumno)
+    slug = alumno
+    alumno = registros.latest('consecutivo').nombreEstudiante
     context = {'registros':registros,
-               'alumno':alumno}
+               'alumno':alumno,
+               'slug':slug,}
     
     return render(request, 'alumno.html', context)
+
+def UsarRegistroComoPlantilla(request, id):
+    
+    registro = Registro.objects.get(id=id)
+    context = {'registro':registro,
+               'vista_detallada':True,
+               'envio':'form'}
+    
+    return render(request, 'form/form.html', context)
+
+def EditarRegistro(request, id):
+
+    registro = Registro.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = RegistroForm(request.POST, request.FILES, instance=registro)
+        if form.is_valid():
+
+            registro = form.save(commit=False)
+
+            registro.form_data = request.POST
+
+            try:
+                observaciones = str(request.POST.get('observaciones', ''))
+
+                mensaje = f"{mensaje_base} {observaciones}"
+
+                messages = [
+                    Message(role="user", content=mensaje),
+                ]
+
+                options = Options(messages=messages)
+                response = service.chat(options)
+
+                registro.resumen = response.content
+            
+            except:
+                registro.resumen = ''
+            
+            registro.save()
+
+            context['success'] = 'Registro actualizado exitosamente.'
+            return render(request, 'form/form.html', context)
+
+    context = {'registro':registro,
+               'vista_detallada':True,
+               'envio':'form'}
+    
+    return render(request, 'template.html', context)
+
+def CrearNuevoRegistro(request, alumno):
+
+    registro= Registro.objects.filter(slug=alumno).latest('consecutivo')
+    
+    context = {'registro':registro,
+               'vista_detallada':True,
+               'envio':'form'}
+    
+    return render(request, 'form/form.html', context)

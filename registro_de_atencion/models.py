@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -64,6 +65,7 @@ class Registro(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     form_data = models.JSONField(null=True, blank=True)
     resumen = models.TextField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True)
 
     class Meta:
         '''Meta definition for Registro.'''
@@ -82,6 +84,9 @@ class Registro(models.Model):
             if getattr(self, field.name) is None and isinstance(field, (models.CharField, models.TextField)):
                 # Establece el valor del campo a un str vacío
                 setattr(self, field.name, '')
+        
+        if not self.slug:
+            self.slug = slugify(self.nombreEstudiante)
 
         super(Registro, self).save(*args, **kwargs)
 

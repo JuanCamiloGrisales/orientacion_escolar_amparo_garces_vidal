@@ -7,7 +7,13 @@
 
 {% block content %}
 
-<form action="" method="post" enctype="multipart/form-data">
+{% if success %}
+<div class="alert alert-success" role="alert">
+  <i class="fa fa-check-circle" aria-hidden="true"></i> {{ success }}
+</div>
+{% endif %}
+
+<form action="{% url envio %}" method="post" enctype="multipart/form-data" id="form">
   {% csrf_token %}
 
   <div class="mb-3">
@@ -34,7 +40,7 @@
 
   <div class="mb-3 autocomplete-wrapper">
     <label for="sede" class="form-label">Sede</label><br>
-    <input type="text" id="sede" name="sede" class="form-control-sm autocomplete-input">
+    <input type="text" id="sede" name="sede" class="form-control autocomplete-input" autocomplete="off">
     <ul class="list-group autocomplete-results"></ul>
   </div>
 
@@ -53,8 +59,8 @@
 
   <div class="mb-3 autocomplete-wrapper">
     <label for="nombreEstudiante" class="form-label">Nombre Completo del Estudiante</label>
-    <input autocomplete="off" type="text" class="form-control autocomplete-input" id="nombreEstudiante" name="nombreEstudiante"
-      placeholder="Ingrese el nombre del alumno para autocompletar">
+    <input autocomplete="off" type="text" class="form-control autocomplete-input" id="nombreEstudiante"
+      name="nombreEstudiante" placeholder="Ingrese el nombre del alumno para autocompletar">
     <ul class="list-group autocomplete-results"></ul>
     {{ alumnos|json_script:"alumnos" }}
   </div>
@@ -77,7 +83,7 @@
     <input type="text" aria-label="Lugar" id="lugarNacimientoEstudiante" class="form-control">
   </div>
 
-  {% include 'normal.html' with field_label='Acudiente'  field_id='acudiente' %}
+  {% include 'normal.html' with field_label='Acudiente' field_id='acudiente' %}
 
   {% include 'normal.html' with field_label='Teléfono del Acudiente' field_id='telefonoAcudiente' %}
 
@@ -189,7 +195,8 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
 
   <div class="mb-3">
     <label for="fechaProximoSeguimiento" class="form-label">Fecha próximo seguimiento</label>
-    <input type="datetime-local" class="form-control" id="fechaProximoSeguimiento" name="fechaProximoSeguimiento"></input>
+    <input type="datetime-local" class="form-control" id="fechaProximoSeguimiento"
+      name="fechaProximoSeguimiento"></input>
   </div>
 
   <div class="mb-3">
@@ -209,6 +216,49 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
 
 
 
+
 <script src="{% static 'form/script.js' %}"></script>
+
+{% if vista_detallada %}
+{{ registro.form_data|json_script:"form_data" }}
+<script>
+  function llenarFormularioConJson(jsonData, formularioId) {
+    // Obtener el formulario por su ID
+    var formulario = document.getElementById(formularioId);
+
+    // Verificar si el formulario y los datos están presentes
+    if (formulario && jsonData) {
+      // Iterar sobre las claves del JSON
+      for (var clave in jsonData) {
+        if (jsonData.hasOwnProperty(clave)) {
+          // Excluir el campo csrf_token
+          if (clave === 'csrfmiddlewaretoken') {
+            continue;
+          }
+
+          // Obtener el elemento de formulario por su nombre
+          var elemento = formulario.elements[clave];
+
+          // Verificar si el elemento existe en el formulario
+          if (elemento) {
+            // Establecer el valor del elemento con el valor correspondiente del JSON
+            elemento.value = jsonData[clave];
+          }
+        }
+      }
+    } else {
+      console.error("Formulario o datos no encontrados.");
+    }
+  }
+
+  var jsonData = document.getElementById("form_data").textContent;
+  jsonData = JSON.parse(jsonData);
+
+  const formularioId = "form";
+
+  llenarFormularioConJson(jsonData, formularioId);
+
+</script>
+{% endif %}
 
 {% endblock %}
