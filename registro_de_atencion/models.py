@@ -5,7 +5,7 @@ from django.utils.text import slugify
 
 class Registro(models.Model):
     '''Model definition for Registro.'''
-    consecutivo = models.IntegerField(null=True, blank=True)
+    consecutivo = models.IntegerField(blank=True)
     fecha = models.DateTimeField(null=True, blank=True)
     municipio = models.CharField(max_length=500, null=True, blank=True)
     institucion = models.CharField(max_length=500, null=True, blank=True)
@@ -74,9 +74,10 @@ class Registro(models.Model):
         verbose_name_plural = 'Registros'
     
     def save(self, *args, **kwargs):
-        if not self.pk:
+        if not self.id:
             ultimo_consecutivo = Registro.objects.filter(nombreEstudiante=self.nombreEstudiante).order_by('consecutivo').last()
             self.consecutivo = (ultimo_consecutivo.consecutivo if ultimo_consecutivo else 0) + 1
+
 
         # Refactoring code to ensure none of the fields are saved as null, instead save as empty str
         for field in self._meta.fields:

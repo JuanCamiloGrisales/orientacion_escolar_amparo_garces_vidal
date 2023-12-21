@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import locale
 from .forms import RegistroForm
 from .files_reader import configurar_municipios, configurar_estudiantes
@@ -14,7 +14,7 @@ Your summaries should be no longer than two lines, capturing the core message or
 
 Remember, your goal is to provide a clear and concise summary that allows anyone to understand the gist of the text without needing to read the entire piece. Precision and brevity are key. The text is always about observations made by psychologists in the context of scholarly orientation, don't focus on the "note" and "personal data protection policy" terms, just the main text below.
 
-Here's the text to summarize:"""
+Here's the text to summarize, write your answer in Spanish:"""
 
 def FormularioDeRegistroDeAtencion(request):
     context = {}
@@ -88,14 +88,23 @@ def UsarRegistroComoPlantilla(request, id):
 def EditarRegistro(request, id):
 
     registro = Registro.objects.get(id=id)
+    consecutivo = registro.consecutivo
+    
+    context = {'registro':registro,
+               'vista_detallada':True,
+               'envio':'edit',
+               'edit':True}
 
     if request.method == 'POST':
         form = RegistroForm(request.POST, request.FILES, instance=registro)
         if form.is_valid():
 
-            registro = form.save(commit=False)
+            nuevo_registro = form.save(commit=False)
 
-            registro.form_data = request.POST
+            nuevo_registro.form_data = request.POST
+
+            nuevo_registro.consecutivo = consecutivo
+            
 
             try:
                 observaciones = str(request.POST.get('observaciones', ''))
@@ -109,21 +118,18 @@ def EditarRegistro(request, id):
                 options = Options(messages=messages)
                 response = service.chat(options)
 
-                registro.resumen = response.content
+                nuevo_registro.resumen = response.content
             
             except:
-                registro.resumen = ''
+                nuevo_registro.resumen = ''
             
-            registro.save()
+            nuevo_registro.save()
 
             context['success'] = 'Registro actualizado exitosamente.'
-            return render(request, 'form/form.html', context)
+            return redirect('detail', nuevo_registro.slug)
 
-    context = {'registro':registro,
-               'vista_detallada':True,
-               'envio':'form'}
     
-    return render(request, 'template.html', context)
+    return render(request, 'form/form.html', context)
 
 def CrearNuevoRegistro(request, alumno):
 
