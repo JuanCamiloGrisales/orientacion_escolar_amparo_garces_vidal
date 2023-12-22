@@ -1,7 +1,7 @@
 function setupAutocomplete(input, data) {
   var results = input.nextElementSibling;
 
-  input.addEventListener("input", function () {
+  const resultados = () => {
     var inputValue = input.value.toLowerCase();
     results.innerHTML = "";
     results.style.display = "none";
@@ -27,7 +27,9 @@ function setupAutocomplete(input, data) {
         });
       });
     }
-  });
+  };
+  input.addEventListener("input", resultados);
+  input.addEventListener("click", resultados);
 
   input.addEventListener("keydown", function (e) {
     if (e.keyCode === 9 && results.firstChild) {
@@ -109,6 +111,27 @@ document.addEventListener("DOMContentLoaded", function () {
       estudiantes.push(nombreCompleto);
     }
   }
+
+  gradoEscolaridad = [
+  "N/A",
+  "Jardín",
+  "Prejardín",
+  "Grado 1",
+  "Grado 2",
+  "Grado 3",
+  "Grado 4",
+  "Grado 5",
+  "Grado 6",
+  "Grado 7",
+  "Grado 8",
+  "Grado 9",
+  "Grado 10",
+  "Grado 11",
+  "Primer Semestre",
+  "Segundo Semestre",
+  "Tercer Semestre",
+  "Cuarto Semestre"
+];
 
   // --------------------
   var sexo = ["Otro", "Mujer", "Hombre",];
@@ -220,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tipoDeAtencion,
     entidadPrestadoraDeSalud,
     estudiantes,
+    gradoEscolaridad,
     sexo,
     genero,
     parentesco,

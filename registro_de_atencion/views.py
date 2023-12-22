@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import locale
 from .forms import RegistroForm
 from .files_reader import configurar_municipios, configurar_estudiantes
-from .models import Registro
+from .models import Registro, Archivo
 from usellm import Message, Options, UseLLM
 
 locale.setlocale(locale.LC_ALL, 'es_CO.UTF-8')
@@ -19,6 +19,17 @@ Here's the text to summarize, write your answer in Spanish:"""
 def FormularioDeRegistroDeAtencion(request):
     context = {}
     context['envio'] = 'form'
+
+    # Configuración de valores por defecto
+    try:
+        municipios = configurar_municipios()
+        context['municipios'] = municipios
+        
+        estudiantes = configurar_estudiantes()
+        context['alumnos'] = estudiantes
+
+    except Exception as e:
+        context['error'] = 'Ocurrió un error al procesar los valores por defecto.'
 
     if request.method == 'POST':
         form = RegistroForm(request.POST, request.FILES)
@@ -47,20 +58,47 @@ def FormularioDeRegistroDeAtencion(request):
             
             registro.save()
 
+            acuerdos_files = request.FILES.getlist('acuerdosPrevios')
+            if acuerdos_files:
+                for archivo in acuerdos_files:
+                    archivo_instance = Archivo(archivo=archivo)
+                    archivo_instance.save()
+                    registro.acuerdosPrevios.add(archivo_instance)
+            
+            remision_files = request.FILES.getlist('remision')
+            if remision_files:
+                for archivo in remision_files:
+                    archivo_instance = Archivo(archivo=archivo)
+                    archivo_instance.save()
+                    registro.remision.add(archivo_instance)
+
+            piar_files = request.FILES.getlist('piar')
+            if piar_files:
+                for archivo in piar_files:
+                    archivo_instance = Archivo(archivo=archivo)
+                    archivo_instance.save()
+                    registro.piar.add(archivo_instance)
+            
+            compromisoPadres_files = request.FILES.getlist('compromisoPadres')
+            if compromisoPadres_files:
+                for archivo in compromisoPadres_files:
+                    archivo_instance = Archivo(archivo=archivo)
+                    archivo_instance.save()
+                    registro.compromisoPadres.add(archivo_instance)
+
+            compromisoEstudiantes_files = request.FILES.getlist('compromisoEstudiantes')
+            if compromisoEstudiantes_files:
+                for archivo in compromisoEstudiantes_files:
+                    archivo_instance = Archivo(archivo=archivo)
+                    archivo_instance.save()
+                    registro.compromisoEstudiantes.add(archivo_instance)
+
             context['success'] = 'Registro guardado correctamente.'
             return render(request, 'form/form.html', context)
         
-
-    # Configuración de valores por defecto
-    try:
-        municipios = configurar_municipios()
-        context['municipios'] = municipios
-        
-        estudiantes = configurar_estudiantes()
-        context['alumnos'] = estudiantes
-
-    except Exception as e:
-        context['error'] = 'Ocurrió un error al procesar los valores por defecto.'
+        else:
+            context['error'] = 'Ocurrio un error al procesar el formulario.'
+            return render(request, 'form/form.html', context)
 
     # ------------------------------------
     return render(request, 'form/form.html', context)

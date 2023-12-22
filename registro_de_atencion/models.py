@@ -3,6 +3,19 @@ from django.utils.text import slugify
 
 # Create your models here.
 
+class Archivo(models.Model):
+    '''Model definition for Archivo.'''
+    archivo = models.FileField(upload_to='archivos/')
+
+    class Meta:
+        '''Meta definition for Archivo.'''
+
+        verbose_name = 'Archivo'
+        verbose_name_plural = 'Archivos'
+
+    def __str__(self):
+        return str(self.id)
+
 class Registro(models.Model):
     '''Model definition for Registro.'''
     consecutivo = models.IntegerField(blank=True)
@@ -44,7 +57,7 @@ class Registro(models.Model):
     tipoFamilia = models.CharField(max_length=500, null=True, blank=True)
     # ------------------
     espectativasEntrevistado = models.TextField(null=True, blank=True)
-    acuerdosPrevios = models.FileField(null=True, blank=True, upload_to='acuerdos_previos/')
+    acuerdosPrevios = models.ManyToManyField(Archivo, related_name='acuerdosPrevios', blank=True)
     # ------------------
     condicionDiscapacidad = models.CharField(max_length=500, null=True, blank=True)
     tipoDiscapacidad = models.CharField(max_length=500, null=True, blank=True)
@@ -54,11 +67,11 @@ class Registro(models.Model):
     observaciones = models.TextField(null=True, blank=True)
     activacionRuta = models.CharField(max_length=500, null=True, blank=True)
     procesosConvivencia = models.TextField(null=True, blank=True)
-    remision = models.FileField(null=True, blank=True, upload_to='remision/')
-    piar = models.FileField(null=True, blank=True, upload_to='piar/')
+    remision = models.ManyToManyField(Archivo, related_name='remision', blank=True)
+    piar = models.ManyToManyField(Archivo, related_name='piar', blank=True)
     estadoCaso = models.CharField(max_length=500, null=True, blank=True)
-    compromisoPadres = models.FileField(null=True, blank=True, upload_to='compromiso_padres/')
-    compromisoEstudiantes = models.FileField(null=True, blank=True, upload_to='compromiso_estudiantes/')
+    compromisoPadres = models.ManyToManyField(Archivo, related_name='compromisoPadres', blank=True)
+    compromisoEstudiantes = models.ManyToManyField(Archivo, related_name='compromisoEstudiantes', blank=True)
     fechaProximoSeguimiento = models.DateTimeField(null=True, blank=True)
     nombreOrientadora = models.CharField(max_length=500, null=True, blank=True)
     # ------------------

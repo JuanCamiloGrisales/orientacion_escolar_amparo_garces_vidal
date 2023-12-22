@@ -12,6 +12,11 @@
   <i class="fa fa-check-circle" aria-hidden="true"></i> {{ success }}
 </div>
 {% endif %}
+{% if error %}
+<div class="alert alert-danger" role="alert">
+  <i class="fa fa-times-circle" aria-hidden="true"></i> {{ error }}
+</div>
+{% endif %}
 
 {% if edit %}
 
@@ -99,7 +104,7 @@
 
   {% include 'normal.html' with field_label='Dirección' field_id='direccion' %}
 
-  {% include 'normal.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' %}
+  {% include 'autocomplete.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' %}
 
   {% include 'normal.html' with field_label='Parentesco del Acudiente' field_id='parentescoAcudiente' %}
 
