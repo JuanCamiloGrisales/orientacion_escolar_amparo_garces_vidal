@@ -154,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Empresario",
     "Independiente",
     "Comerciante",
+    "Oficios Varios",
   ];
 
   var nivelEducativo = [
