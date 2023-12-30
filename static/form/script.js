@@ -6,35 +6,30 @@ function setupAutocomplete(input, data) {
     results.innerHTML = "";
     results.style.display = "none";
 
-    var filteredData = data.filter(function (item) {
-      return inputValue.length === 0 || item.toLowerCase().includes(inputValue);
-    });
-
-    if (filteredData.length > 0) {
-      results.style.display = "block";
-    }
-
-    filteredData.forEach(function (item) {
-      var li = document.createElement("li");
-      li.textContent = item;
-      results.appendChild(li);
-
-      li.addEventListener("click", function () {
-        input.value = item;
-        results.innerHTML = "";
-        results.style.display = "none";
+    if (inputValue.length > 0) {
+      var filteredData = data.filter(function (item) {
+        return item.toLowerCase().includes(inputValue);
       });
-    });
-  };
 
-  input.addEventListener("input", resultados);
+      if (filteredData.length > 0) {
+        results.style.display = "block";
+      }
 
-  // Se modifica el evento de "click" para que no dependa del contenido del input
-  input.addEventListener("click", function(event) {
-    if (input.value === '') {
-      resultados();
+      filteredData.forEach(function (item) {
+        var li = document.createElement("li");
+        li.textContent = item;
+        results.appendChild(li);
+
+        li.addEventListener("click", function () {
+          input.value = item;
+          results.innerHTML = "";
+          results.style.display = "none";
+        });
+      });
     }
-  });
+  };
+  input.addEventListener("input", resultados);
+  input.addEventListener("click", resultados);
 
   input.addEventListener("keydown", function (e) {
     if (e.keyCode === 9 && results.firstChild) {
@@ -250,8 +245,6 @@ document.addEventListener("DOMContentLoaded", function () {
     entidadPrestadoraDeSalud,
     estudiantes,
     gradoEscolaridad,
-    entidadPrestadoraDeSalud,
-    municipio,
     sexo,
     genero,
     parentesco,
@@ -282,29 +275,40 @@ document.addEventListener("DOMContentLoaded", function () {
   const numeroDocumentoEstudiante = document.getElementById("numeroDocumentoEstudiante");
   const epsEstudiante = document.getElementById("epsEstudiante");
   const fechaNacimientoEstudiante = document.getElementById("fechaNacimientoEstudiante");
+  const lugarNacimientoEstudiante = document.getElementById("lugarNacimientoEstudiante");
   const direccion = document.getElementById("direccion");
-  const gradoEscolaridad = document.getElementById("gradoEscolaridad");
 
   // Input:
   var inputNombreEstudiante = document.getElementById("nombreEstudiante");
 
   
-function autocompleter() {
-    const Valor = inputNombreEstudiante.value;
-    const alumno = alumnosData[Valor] || {};
-
-    tipoDocumentoEstudiante.value = alumno.tipo_documento || "";
-    numeroDocumentoEstudiante.value = alumno.numero_documento || "";
-    epsEstudiante.value = alumno.eps || "";
-    fechaNacimientoEstudiante.value = alumno.fecha_nacimiento || "";
-    direccion.value = alumno.barrio || "";
-    gradoEscolaridad.value = alumno.grado_escolaridad || "";
-}
+  function autocompleter() {
+      Valor = inputNombreEstudiante.value;
+      
+      if (alumnosData.hasOwnProperty(Valor)) {
+        tipoDocumentoEstudiante.value = alumnosData[Valor].tipo_documento;
+        numeroDocumentoEstudiante.value = alumnosData[Valor].numero_documento;
+        epsEstudiante.value = alumnosData[Valor].eps;
+        fechaNacimientoEstudiante.value = alumnosData[Valor].fecha_nacimiento;
+        lugarNacimientoEstudiante.value = alumnosData[Valor].lugar_nacimiento;
+        direccion.value = alumnosData[Valor].barrio;
+      } else {
+        tipoDocumentoEstudiante.value = "";
+        numeroDocumentoEstudiante.value = "";
+        epsEstudiante.value = "";
+        fechaNacimientoEstudiante.value = "";
+        lugarNacimientoEstudiante.value = "";
+        direccion.value = "";
+      }
+    }
 
   inputNombreEstudiante.addEventListener("input", autocompleter);
   inputNombreEstudiante.addEventListener("change", autocompleter);
   inputNombreEstudiante.addEventListener("click", autocompleter);
   inputNombreEstudiante.addEventListener("keyup", autocompleter);
+    
+  
+
 
   // Fin Variables de completado automático
 })

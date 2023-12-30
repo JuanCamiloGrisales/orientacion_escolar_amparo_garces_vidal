@@ -59,6 +59,8 @@ def configurar_estudiantes():
 
         barrio = fila[1]['BARRIO'] if pd.notna(fila[1]['BARRIO']) else ''
 
+        grado_escolaridad = fila[1]['GRADO_COD'] if pd.notna(fila[1]['GRADO_COD']) else ''
+
         alumnos[nombre_completo] = {
             'tipo_documento': tipo_documento,
             'numero_documento': numero_documento,
@@ -66,6 +68,7 @@ def configurar_estudiantes():
             'fecha_nacimiento': fecha_nacimiento,
             'lugar_nacimiento': lugar_nacimiento,
             'barrio': barrio,
+            'grado_escolaridad': grado_escolaridad
         }
 
     return alumnos

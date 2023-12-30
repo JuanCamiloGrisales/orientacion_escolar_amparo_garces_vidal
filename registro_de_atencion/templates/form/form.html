@@ -3,6 +3,22 @@
 {% block extrahead %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'form/styles.css' %}">
+<script src="{% static 'tinymce\js\tinymce\tinymce.min.js' %}"></script>
+<script src="{% static 'js/es_MX.js' %}"></script>
+
+
+<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        language: 'es_MX',
+        plugins: 'autolink lists charmap print preview hr table searchreplace code fullscreen wordcount insertdatetime save table directionality emoticons paste',
+        toolbar_mode: 'floating',
+        toolbar_sticky: true,
+        branding: false,
+        toolbar: 'undo redo | formatselect | blocks fontsize | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist a11ycheck | table | searchreplace | fullscreen', 
+    });
+</script>
 {% endblock extrahead %}
 
 {% block content %}
@@ -57,7 +73,13 @@
     <ul class="list-group autocomplete-results"></ul>
   </div>
 
-  {% include 'autocomplete.html' with field_label='Remitido Por' field_id='remitidoPor' %}
+  <div class="row">
+    <div class="col">
+      {% include 'autocomplete.html' with field_label='Remitido Por' field_id='remitidoPor' %}
+    </div>
+    <div class="col">
+      {% include 'normal.html' with field_label='Nombre' field_id='nombreRemitidoPor' %}
+    </div>
 
   {% include 'autocomplete.html' with field_label='Posibles motivos de atención' field_id='posiblesMotivosDeAtencion' %}
 
@@ -67,36 +89,45 @@
 
   {% include 'autocomplete.html' with field_label='Entidad Prestadora de Salud' field_id='entidadPrestadoraDeSalud' %}
 
+  {% include 'normal.html' with field_label='Persona de Confianza (Mejor amig@ / novi@)' field_id='personaDeConfianza' %}
+
 
   <h2 class="mt-5 mb-3 font-weight-bold">Datos Personales</h2>
 
   <div class="mb-3 autocomplete-wrapper">
     <label for="nombreEstudiante" class="form-label">Nombre Completo del Estudiante</label>
     <input autocomplete="off" type="text" class="form-control autocomplete-input" id="nombreEstudiante"
-      name="nombreEstudiante" placeholder="Ingrese el nombre del alumno para autocompletar">
+      name="nombreEstudiante" placeholder="Ingrese el nombre del alumno para autocompletar" required>
     <ul class="list-group autocomplete-results"></ul>
     {{ alumnos|json_script:"alumnos" }}
   </div>
 
   <div class="row mb-3">
     <div class="col">
-      {% include 'normal.html' with field_label='Tipo de Documento' field_id='tipoDocumentoEstudiante' %}
+      {% include 'normal.html' with field_label='Tipo de Documento' field_id='tipoDocumentoEstudiante'%}
     </div>
     <div class="col">
-      {% include 'normal.html' with field_label='Número de Documento' field_id='numeroDocumentoEstudiante' %}
+      {% include 'normal.html' with field_label='Número de Documento' field_id='numeroDocumentoEstudiante'%}
     </div>
   </div>
+  
+  {% include 'autocomplete.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' %}
 
-  {% include 'normal.html' with field_label='EPS' field_id='epsEstudiante' %}
+  {% include 'normal.html' with field_label='Número de Teléfono' field_id='numeroTelefonoEstudiante' %}
+
+  {% include 'autocomplete.html' with field_label='EPS' field_id='epsEstudiante' %}
+  
+  {% include 'normal.html' with field_label='Edad' field_id='edadEstudiante' %}
 
 
-  <div class="mb-3 input-group">
+  <div class="mb-3 input-group" style="position: relative;">
     <span class="input-group-text">Fecha y lugar de nacimiento</span>
-    <input type="text" aria-label="Fecha" id="fechaNacimientoEstudiante" class="form-control">
-    <input type="text" aria-label="Lugar" id="lugarNacimientoEstudiante" class="form-control">
+    <input type="text" aria-label="Fecha" id="fechaNacimientoEstudiante" class="form-control" autocomplete="off">
+    <input type="text" aria-label="Lugar" id="lugarNacimientoEstudiante" class="form-control autocomplete-input" autocomplete="off">
+    <ul class="list-group autocomplete-results"></ul>
   </div>
 
-  {% include 'normal.html' with field_label='Acudiente' field_id='acudiente' %}
+  {% include 'normal.html' with field_label='Acudiente / Parentesco' field_id='parentescoAcudiente' %}
 
   {% include 'normal.html' with field_label='Teléfono del Acudiente' field_id='telefonoAcudiente' %}
 
@@ -104,9 +135,7 @@
 
   {% include 'normal.html' with field_label='Dirección' field_id='direccion' %}
 
-  {% include 'autocomplete.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' %}
 
-  {% include 'normal.html' with field_label='Parentesco del Acudiente' field_id='parentescoAcudiente' %}
 
 
 
@@ -137,6 +166,11 @@
   {% include 'normal.html' with field_label='Teléfono' field_id='telefono' %}
   {% include 'normal.html' with field_label='Lugar de Residencia' field_id='lugarResidencia' %}
   {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoFamilia' %}
+
+  <div class="mb-3">
+    <label for="HogarYBienestar" class="form-label">Hogar y Bienestar</label>
+    <textarea name="HogarYBienestar" id="HogarYBienestar" cols="30" rows="10"></textarea>
+  </div>
 
   <h2 class="mt-5 mb-3 font-weight-bold">Acuerdos de Atención</h2>
 
