@@ -7,7 +7,7 @@
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group mb-5">
-                    <label for="file">Seleccione el archivo de Excel</label>
+                    <label for="file">Seleccione el archivo de Excel poporcionado por el SIMAT.</label>
                     <input type="file" name="file" id="file" class="form-control" accept=".xlsx"
                         onchange="validateExcelFile(this)">
 

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+<style>
+    .desplegar {
+        cursor: pointer;
+    }
+
+    pre {
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+    }
+
+    input {
+        border: none !important;
+        font-size: 22px;
+    }
+
+    .guardar{
+        position: fixed;
+        top: 12rem;
+        right: 3rem;
+    }
+</style>
+{% endblock extrahead %}
+
+{% block content %}
+
+<div class="card desplegar mb-5" data-bs-toggle="collapse" data-bs-target="#FormEdition" aria-expanded="false"
+    aria-controls="FormEdition">
+    <div class="card-body">
+        <h3 class="card-title">Formulario de Registro de Atención</h3>
+        <p class="card-text">Presiona para habilitar la edición del formulario.</p>
+    </div>
+
+</div>
+
+{% if success %}
+<div class="alert alert-success">
+    <p><i class="fa fa-check" aria-hidden="true"></i> Cambios guardados correctamente.</p>
+</div>
+{% endif %}
+
+<div class="collapse mt-5" id="FormEdition">
+    <form action="" method="post">
+
+        {% csrf_token %}
+
+        <div class="mb-5">
+            <h2 class="mb-4">Municipio</h2>
+
+            <div class="ms-5">
+                <pre>   Por defecto:</pre>
+                <div class="card ms-5 ">
+                    <input type="text" name="municipioDefault" id="municipioDefault" class="card-body form-control"
+                        value="{{configuracion.municipio.default}}">
+                </div>
+            </div>
+
+        </div>
+        <!-- Institución -->
+        {% include 'item.html' with configuracion=configuracion.institucion id='institucion' nombre='Nombre del Establecimiento Educativo' %}
+
+        <!-- Código DANE -->
+        {% include 'item.html' with configuracion=configuracion.dane id='dane' nombre='Código DANE' %}
+
+        <!-- Sede -->
+        {% include 'item.html' with configuracion=configuracion.sede id='sede' nombre='Sede' %}
+
+        <!-- Remitido por -->
+        {% include 'item.html' with configuracion=configuracion.remitidoPor id='remitidoPor' nombre='Remitido por' %}
+
+        <!-- Nombre Remitido por -->
+        {% include 'item.html' with configuracion=configuracion.nombreRemitidoPor id='nombreRemitidoPor' nombre='Nombre (Remitido por)' %}
+
+        <!-- Posibles Motivos de Atención -->
+        {% include 'item.html' with configuracion=configuracion.posiblesMotivosDeAtencion id='posiblesMotivosDeAtencion' nombre='Posibles Motivos de Atención' %}
+
+        <!-- Línea de Atención -->
+        {% include 'item.html' with configuracion=configuracion.lineaDeAtencion id='lineaDeAtencion' nombre='Línea de Atención' %}
+
+        <!-- Tipo de Atención -->
+        {% include 'item.html' with configuracion=configuracion.tipoDeAtencion id='tipoDeAtencion' nombre='Tipo de Atención' %}
+
+
+        {% include 'item.html' with configuracion=configuracion.entidadPrestadoraDeSalud id='entidadPrestadoraDeSalud' nombre='Entidad Prestadora de Salud' %}
+
+        {% include 'item.html' with configuracion=configuracion.tipoDocumentoEstudiante id='tipoDocumentoEstudiante' nombre='Tipo de Documento del Estudiante' %}
+
+        {% include 'item.html' with configuracion=configuracion.gradoEscolaridad id='gradoEscolaridad' nombre='Grado de Escolaridad' %}
+
+        {% include 'item.html' with configuracion=configuracion.sexo id='sexo' nombre='Sexo' %}
+
+        {% include 'item.html' with configuracion=configuracion.genero id='genero' nombre='Genero' %}
+
+        {% include 'item.html' with configuracion=configuracion.parentesco id='parentesco' nombre='Parentesco' %}
+
+        {% include 'item.html' with configuracion=configuracion.ocupacion id='ocupacion' nombre='Ocupación' %}
+
+        {% include 'item.html' with configuracion=configuracion.nivelEducativo id='nivelEducativo' nombre='Nivel Educativo' %}
+
+        {% include 'item.html' with configuracion=configuracion.estadoCivil id='estadoCivil' nombre='Estado Civil' %}
+
+        {% include 'item.html' with configuracion=configuracion.tipoFamilia id='tipoFamilia' nombre='Tipo de Familia' %}
+
+        {% include 'item.html' with configuracion=configuracion.condicionDiscapacidad id='condicionDiscapacidad' nombre='Condición de Discapacidad' %}
+
+        {% include 'item.html' with configuracion=configuracion.tipoDiscapacidad id='tipoDiscapacidad' nombre='Tipo de Discapacidad' %}
+
+        {% include 'item.html' with configuracion=configuracion.talentoYCapacidadesExepcionales id='talentoYCapacidadesExepcionales' nombre='Talento y/o Capacidades Exepcionales' %}
+
+        {% include 'item.html' with configuracion=configuracion.activacionRuta id='activacionRuta' nombre='Activación de Ruta' %}
+
+        {% include 'item.html' with configuracion=configuracion.estadoCaso id='estadoCaso' nombre='Estado del Caso' %}
+
+        {% include 'item.html' with configuracion=configuracion.nombreOrientadora id='nombreOrientadora' nombre='Nombre de quien realiza la Atención' %}
+
+        <button type="submit" class="btn btn-primary btn-lg ms-5 mt-3 guardar">Guardar Cambios</button>
+    </form>
+    
+</div>
+
+<script>
+    var buttons = document.getElementsByClassName("add");
+
+    Array.from(buttons).forEach(function (button) {
+        button.addEventListener("click", function () {
+            var div = button.previousElementSibling.cloneNode(true);
+            button.parentNode.insertBefore(div, button);
+        });
+    });
+</script>
+
+{% endblock %}

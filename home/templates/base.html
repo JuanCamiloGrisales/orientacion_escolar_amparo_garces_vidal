@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     {% load static %}
     <meta charset="UTF-8" />
@@ -27,15 +27,16 @@
         text-decoration: none;
       }
 
-      .btn {
+      .btn-primary {
         border-radius: 5px;
         border: 0;
         background-color: #8a2be2;
       }
 
-      .btn:hover {
+      .btn-primary:hover {
         background-color: #7223bb;
       }
+
     </style>
     {% block extrahead %}{% endblock %}
   </head>
@@ -74,7 +75,15 @@
       </div>
 
       <div class="navbar-nav" style="position: absolute; right: 0;">
-        <a class="nav-link mx-2 {% if request.path == '/actualizar/' %}active{% endif %}" href="{% url 'actualizar' %}">Actualizar Base de Datos</a>
+        <div class="dropdown">
+          <button class="btn btn-link dropdown-toggle text-decoration-none text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-gears" aria-hidden="true"></i> Opciones
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'actualizar' %}"><i class="fa fa-upload" aria-hidden="true"></i> Actualizar Base de Datos</a></li>
+            <li><a class="dropdown-item" href="{% url 'formEditor' %}"><i class="fa fa-file-pen" aria-hidden="true"></i> Editar Formulario</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
 

@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('home.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('registro-de-atencion/', include('registro_de_atencion.urls')),
+    path('personalizar-formulario/', include('editor_formulario.urls')),
 ]

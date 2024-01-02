@@ -1,0 +1,21 @@
+<div class="mb-5 mt-5">
+    <h2 class="mb-4">{{nombre}}</h2>
+    <div class="ms-5">
+        <pre>   Por defecto:</pre>
+        <div class="card ms-5 ">
+            <input type="text" name="{{id}}Default" id="{{id}}Default" class="card-body form-control" value="{{configuracion.default}}">
+        </div>
+
+        <pre class="mt-5">   Opciones:</pre>
+        {% for opcion in configuracion.opciones %}
+        <div class="card ms-5 mb-3">
+            <input type="text" name="{{id}}Opciones" id="{{id}}Opciones" class="card-body form-control"value="{{opcion}}">
+        </div>
+        {% empty %}
+        <div class="card ms-5 mb-3">
+            <input type="text" name="{{id}}Opciones" id="{{id}}Opciones" class="card-body form-control">
+        </div>
+        {% endfor %}
+        <button type="button" class="btn btn-primary btn-lg ms-5 mt-3 add">Añadir Opción</button>
+    </div>
+</div>
