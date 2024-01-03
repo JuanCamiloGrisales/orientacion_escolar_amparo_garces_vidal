@@ -13,7 +13,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  z-index: 1;
+  z-index: 9998;
   display: none;
 }
 
@@ -25,4 +25,8 @@
 
 .autocomplete-results li:hover {
   background-color: #f5f5f5;
+}
+
+.autocomplete-results li.above-toolbar {
+  z-index: 9999;
 }

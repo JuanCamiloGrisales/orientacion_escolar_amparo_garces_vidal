@@ -17,14 +17,15 @@ function setupAutocomplete(input, data) {
     filteredData.forEach(function (item) {
       var li = document.createElement("li");
       li.textContent = item;
+      li.style.zIndex = "9999"; // Un valor muy alto
       results.appendChild(li);
-
+    
       li.addEventListener("click", function () {
         input.value = item;
         results.innerHTML = "";
         results.style.display = "none";
       });
-    });
+    });    
   };
 
   input.addEventListener("input", resultados);
@@ -59,55 +60,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Variables
 
   var municipio = JSON.parse(document.getElementById('municipios_data').textContent);
-  var sede = ["Anexa", "Principal"];
-  var remitidoPor = [
-    "Docente",
-    "Asesor de Grupo",
-    "Coordinador",
-    "Rector",
-    "Acudiente o Tutor",
-    "Estudiante (Por otro estudiante)",
-    "Motivación Personal",
-    "Remisión de Comité",
-    "Focalización y/ o Seguimiento de orientación escolar",
-    "Gestores de inclusión",
-  ];
-  var posiblesMotivosDeAtencion = [
-    "comportamientos agresivos",
-    "Violencia intrafamiliar",
-    "Posible hiper-actividad y énfasis",
-    "Violencia sexual",
-    "Violencia basada en genero",
-    "Consumo de sustancia psicoactivas",
-    "Ideación suicida",
-    "Intento de suicidio",
-    "Cuttin- autoflagelación",
-    "Baja tolerancia a la frustración",
-    "Dificultades- problemas cognitivos del aprendizaje",
-    "Embarazos en adolescentes",
-    "Dificultades del orden emocional",
-    "Acoso escolar Físico",
-    "Acoso escolar Psicológico",
-    "Acoso escolar Verbal",
-    "Orientación sexual",
-    "Trastornos en conducta alimentaria",
-    "Delitos, según la ley colombiana",
-  ];
-  var lineaDeAtencion = ["Orientación", "Prevención", "Intervención"]
-  var tipoDeAtencion = ["Individual", "Familiar", "Grupal"]
-  var entidadPrestadoraDeSalud = [
-    "MALLAMAS",
-    "AIC",
-    "ASMET SALUD",
-    "SALUD VIDA",
-    "EMSANAR",
-    "SISBEN",
-    "COOMEVA",
-    "NUEVA EPS",
-    "SOS",
-    "COSMITET",
-    "SANITAS",
-  ];
+  var institucion = JSON.parse(document.getElementById('institucion_data').textContent);
+  var dane = JSON.parse(document.getElementById('dane_data').textContent);
+  var sede = JSON.parse(document.getElementById('sede_data').textContent);;
+  var remitidoPor = JSON.parse(document.getElementById('remitidoPor_data').textContent);
+  var nombreRemitidoPor = JSON.parse(document.getElementById('nombreRemitidoPor_data').textContent);
+  var posiblesMotivosDeAtencion = JSON.parse(document.getElementById('posiblesMotivosDeAtencion_data').textContent);
+  var lineaDeAtencion = JSON.parse(document.getElementById('lineaDeAtencion_data').textContent);
+  var tipoDeAtencion = JSON.parse(document.getElementById('tipoDeAtencion_data').textContent);
+  var entidadPrestadoraDeSalud = JSON.parse(document.getElementById('entidadPrestadoraDeSalud_data').textContent);
   var alumnosData = JSON.parse(document.getElementById('alumnos').textContent);
   var estudiantes = [];
   
@@ -117,138 +78,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  gradoEscolaridad = [
-  "N/A",
-  "Jardín",
-  "Prejardín",
-  "Grado 1",
-  "Grado 2",
-  "Grado 3",
-  "Grado 4",
-  "Grado 5",
-  "Grado 6",
-  "Grado 7",
-  "Grado 8",
-  "Grado 9",
-  "Grado 10",
-  "Grado 11",
-  "Primer Semestre",
-  "Segundo Semestre",
-  "Tercer Semestre",
-  "Cuarto Semestre"
-];
+  tipoDocumentoEstudianteDatos = JSON.parse(document.getElementById('tipoDocumentoEstudiante_data').textContent);
+  gradoEscolaridad = JSON.parse(document.getElementById('gradoEscolaridad_data').textContent);
 
   // --------------------
-  var sexo = ["Otro", "Mujer", "Hombre",];
-  var genero = ["Otro", "Masculino", "Femenino"];
-  var parentesco = [
-    "Padre",
-    "Madre",
-    "Tio o Tia",
-    "Abuelo o Abuela Paterna",
-    "Abuelo o Abuela Materna",
-    "Filia Política",
-    "Pareja",
-  ];
-  var ocupacion = [
-    "Agricultor",
-    "Conductor",
-    "Docente",
-    "Ama de Casa",
-    "Jornalero",
-    "Empresario",
-    "Independiente",
-    "Comerciante",
-    "Oficios Varios",
-  ];
+  var sexo = JSON.parse(document.getElementById('sexo_data').textContent);
+  var genero = JSON.parse(document.getElementById('genero_data').textContent);
+  var parentesco = JSON.parse(document.getElementById('parentesco_data').textContent);
+  var ocupacion = JSON.parse(document.getElementById('ocupacion_data').textContent);
 
-  var nivelEducativo = [
-    "No sabe no responde",
-    "No estudió",
-    "Primaria",
-    "Secundaria",
-    "Bachiller",
-    "Técnico",
-    "Tecnólogo",
-    "Pregrado o Profesional",
-    "Postgrado",
-    "Doctorado",
-  ];
+  var nivelEducativo = JSON.parse(document.getElementById('nivelEducativo_data').textContent);
 
-  var estadoCivil = [
-    "No sabe no responde",
-    "Soltero",
-    "Casado",
-    "Divorciado",
-    "Viudo",
-    "Separado",
-    "Unión Libre",
-    "Comprometido",
-    "N/A",
-  ];
+  var estadoCivil = JSON.parse(document.getElementById('estadoCivil_data').textContent);
 
-  var tipoDeFamilia = [
-    "nuclear / heteroparental",
-    "monoparental",
-    "reconstituida",
-    "extensa",
-    "ensamblada",
-    "familia de acogida",
-    "adoptiva",
-    "biparental",
-    "homoparental",
-    "Inmigrante",
-    "Transnacional",
-  ];
+  var tipoDeFamilia = JSON.parse(document.getElementById('tipoFamilia_data').textContent);
 
   // -----------------------
-  var condicionDeDiscapacidad = [
-    "No",
-    "Si",
-  ]
+  var condicionDeDiscapacidad = JSON.parse(document.getElementById('condicionDiscapacidad_data').textContent);
 
-  var TipoDeDiscapacidad = [
-    "Sensorial",
-    "Intelectual",
-    "Física",
-    "Mental / Psicosocial",
-  ]
+  var TipoDeDiscapacidad = JSON.parse(document.getElementById('tipoDiscapacidad_data').textContent);
+  var talentoYCapacidadesExepcionales = JSON.parse(document.getElementById('talentoYCapacidadesExepcionales_data').textContent);
 
-  var talentoYCapacidadesExepcionales = [
-    "Talento científico",
-    "Talento Tecnológico",
-    "Talento Atlético Deportivo",
-    "Doble excepcionalidad",
-    "Talento subjetivo artístico"
-  ];
+  var activacionRuta = JSON.parse(document.getElementById('activacionRuta_data').textContent);
 
-  var RemitidoA = [
-    "Sí",
-    "No remitido",
-    "Coordinación de convivencia (Protocolo de Atención)",
-    "Sector salud (Médico general, Fonoaudiología, Psicología)",
-    "Sector protección (Comisaria de familia, ICBF, Policía de Infancia y adolescencia)",
-    "Ministerio Público (personería, defensoría del pueblo, procuraduría, UARIV)",
-    "Sector Justicia (fiscalía, policía)",
-    "Comité de convivencia escolar",
-    "Consejo directivo",
-    "Consejo académico",
-    "Seguimiento de orientación",
-    "Atención de necesidades diversas de aprendizaje (PIAR)",
-  ];
-
-  var estadoDelCaso = ["Abierto", "Cerrado"];
+  var estadoCaso = JSON.parse(document.getElementById('estadoCaso_data').textContent);
+  var nombreOrientadora = JSON.parse(document.getElementById('nombreOrientadora_data').textContent);
 
   // Fin Variables
   var dataSets = [
     municipio,
+    institucion,
+    dane,
     sede,
     remitidoPor,
+    nombreRemitidoPor,
     posiblesMotivosDeAtencion,
     lineaDeAtencion,
     tipoDeAtencion,
     entidadPrestadoraDeSalud,
     estudiantes,
+    tipoDocumentoEstudianteDatos,
     gradoEscolaridad,
     entidadPrestadoraDeSalud,
     municipio,
@@ -262,8 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
     condicionDeDiscapacidad,
     TipoDeDiscapacidad,
     talentoYCapacidadesExepcionales,
-    RemitidoA,
-    estadoDelCaso
+    activacionRuta,
+    estadoCaso,
+    nombreOrientadora
 
   ];
 
@@ -359,3 +229,32 @@ document.addEventListener("DOMContentLoaded", function () {
   //   .catch(error => console.error(error));
   // });
 });
+
+function llenarFormularioConJson(jsonData, formularioId) {
+  // Obtener el formulario por su ID
+  var formulario = document.getElementById(formularioId);
+
+  // Verificar si el formulario y los datos están presentes
+  if (formulario && jsonData) {
+    // Iterar sobre las claves del JSON
+    for (var clave in jsonData) {
+      if (jsonData.hasOwnProperty(clave)) {
+        // Excluir el campo csrf_token
+        if (clave === 'csrfmiddlewaretoken') {
+          continue;
+        }
+
+        // Obtener el elemento de formulario por su nombre
+        var elemento = formulario.elements[clave];
+
+        // Verificar si el elemento existe en el formulario
+        if (elemento) {
+          // Establecer el valor del elemento con el valor correspondiente del JSON
+          elemento.value = jsonData[clave];
+        }
+      }
+    }
+  } else {
+    console.error("Formulario o datos no encontrados.");
+  }
+}

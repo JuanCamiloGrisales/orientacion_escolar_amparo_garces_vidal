@@ -12,7 +12,7 @@
     tinymce.init({
         selector: 'textarea',
         language: 'es_MX',
-        plugins: 'autolink lists charmap print preview hr table searchreplace code fullscreen wordcount insertdatetime save table directionality emoticons paste',
+        plugins: 'autolink lists charmap preview table searchreplace code fullscreen wordcount insertdatetime save table directionality emoticons',
         toolbar_mode: 'floating',
         toolbar_sticky: true,
         branding: false,
@@ -51,43 +51,40 @@
       value="{% now 'Y-m-d H:i' %}">
   </div>
 
-  {% include 'autocomplete.html' with field_label='Municipio' field_id='municipio' %}
+  {% include 'autocomplete.html' with field_label='Municipio' field_id='municipio' valor=campos.municipio.default %}
   {{ municipios|json_script:"municipios_data" }}
 
-  <div class="row mb-3">
-    <div class="col-sm">
-      <label for="institucion" class="form-label">Nombre del Establecimiento Educativo</label>
-      <input type="text" class="form-control" id="institucion" name="institucion"
-        value='Escuela Normal Superior "Claudina Múnera"'>
-    </div>
-    <div class="col-sm">
-      <label for="dane" class="form-label">Código DANE</label>
-      <input type="text" class="form-control" id="dane" name="dane" value="117013001167">
-    </div>
+  <div class="row">
+    <div class="col">{% include 'autocomplete.html' with field_label='Nombre del Establecimiento Educativo' field_id='institucion' valor=campos.institucion.default %}</div>
+    {{ campos.institucion.opciones|json_script:"institucion_data" }}
+    <div class="col">{% include 'autocomplete.html' with field_label='Código DANE' field_id='dane' valor=campos.dane.default %}</div>
+    {{ campos.dane.opciones|json_script:"dane_data" }}
   </div>
 
-
-  <div class="mb-3 autocomplete-wrapper">
-    <label for="sede" class="form-label">Sede</label><br>
-    <input type="text" id="sede" name="sede" class="form-control autocomplete-input" autocomplete="off">
-    <ul class="list-group autocomplete-results"></ul>
-  </div>
+  {% include 'autocomplete.html' with field_label='Sede' field_id='sede' valor=campos.sede.default %}
+  {{ campos.sede.opciones|json_script:"sede_data" }}
 
   <div class="row">
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Remitido Por' field_id='remitidoPor' %}
+      {% include 'autocomplete.html' with field_label='Remitido Por' field_id='remitidoPor' valor=campos.remitidoPor.default %}
+      {{ campos.remitidoPor.opciones|json_script:"remitidoPor_data" }}
     </div>
     <div class="col">
-      {% include 'normal.html' with field_label='Nombre' field_id='nombreRemitidoPor' %}
+      {% include 'autocomplete.html' with field_label='Nombre' field_id='nombreRemitidoPor' valor=campos.nombreRemitidoPor.default %}
+      {{ campos.nombreRemitidoPor.opciones|json_script:"nombreRemitidoPor_data" }}
     </div>
 
-  {% include 'autocomplete.html' with field_label='Posibles motivos de atención' field_id='posiblesMotivosDeAtencion' %}
+  {% include 'autocomplete.html' with field_label='Posibles motivos de atención' field_id='posiblesMotivosDeAtencion' valor=campos.posiblesMotivosDeAtencion.default %}
+  {{ campos.posiblesMotivosDeAtencion.opciones|json_script:"posiblesMotivosDeAtencion_data" }}
 
-  {% include 'autocomplete.html' with field_label='Línea de atención' field_id='lineaDeAtencion' %}
+  {% include 'autocomplete.html' with field_label='Línea de atención' field_id='lineaDeAtencion' valor=campos.lineaDeAtencion.default %}
+  {{ campos.lineaDeAtencion.opciones|json_script:"lineaDeAtencion_data" }}
 
-  {% include 'autocomplete.html' with field_label='Tipo de atención' field_id='tipoDeAtencion' %}
+  {% include 'autocomplete.html' with field_label='Tipo de atención' field_id='tipoDeAtencion' valor=campos.tipoDeAtencion.default %}
+  {{ campos.tipoDeAtencion.opciones|json_script:"tipoDeAtencion_data" }}
 
-  {% include 'autocomplete.html' with field_label='Entidad Prestadora de Salud' field_id='entidadPrestadoraDeSalud' %}
+  {% include 'autocomplete.html' with field_label='Entidad Prestadora de Salud' field_id='entidadPrestadoraDeSalud' valor=campos.entidadPrestadoraDeSalud.default %}
+  {{ campos.entidadPrestadoraDeSalud.opciones|json_script:"entidadPrestadoraDeSalud_data" }}
 
   {% include 'normal.html' with field_label='Persona de Confianza (Mejor amig@ / novi@)' field_id='personaDeConfianza' %}
 
@@ -104,18 +101,20 @@
 
   <div class="row mb-3">
     <div class="col">
-      {% include 'normal.html' with field_label='Tipo de Documento' field_id='tipoDocumentoEstudiante'%}
+      {% include 'autocomplete.html' with field_label='Tipo de Documento' field_id='tipoDocumentoEstudiante' valor=campos.tipoDocumentoEstudiante.default%}
     </div>
+    {{ campos.tipoDocumentoEstudiante.opciones|json_script:"tipoDocumentoEstudiante_data" }}
     <div class="col">
       {% include 'normal.html' with field_label='Número de Documento' field_id='numeroDocumentoEstudiante'%}
     </div>
   </div>
   
-  {% include 'autocomplete.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' %}
+  {% include 'autocomplete.html' with field_label='Grado de Escolaridad' field_id='gradoEscolaridad' valor=campos.gradoEscolaridad.default %}
+  {{ campos.gradoEscolaridad.opciones|json_script:"gradoEscolaridad_data" }}
 
   {% include 'normal.html' with field_label='Número de Teléfono' field_id='numeroTelefonoEstudiante' %}
 
-  {% include 'autocomplete.html' with field_label='EPS' field_id='epsEstudiante' %}
+  {% include 'autocomplete.html' with field_label='EPS' field_id='epsEstudiante' valor=campos.entidadPrestadoraDeSalud.default %}
   
   {% include 'normal.html' with field_label='Edad' field_id='edadEstudiante' %}
 
@@ -143,20 +142,30 @@
 
   <div class="row mb-3">
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Sexo' field_id='sexo' %}
+      {% include 'autocomplete.html' with field_label='Sexo' field_id='sexo' valor=campos.sexo.default %}
     </div>
+    {{ campos.sexo.opciones|json_script:"sexo_data" }}
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Género' field_id='genero' %}
+      {% include 'autocomplete.html' with field_label='Género' field_id='genero' valor=campos.genero.default %}
     </div>
+    {{ campos.genero.opciones|json_script:"genero_data" }}
   </div>
-  {% include 'autocomplete.html' with field_label='Parentesco' field_id='parentesco' %}
+  {% include 'autocomplete.html' with field_label='Parentesco' field_id='parentesco' valor=campos.parentesco.default %}
+  {{ campos.parentesco.opciones|json_script:"parentesco_data" }}
+
   {% include 'normal.html' with field_label='Nombre' field_id='nombre' %}
   {% include 'normal.html' with field_label='Edad' field_id='edad' %}
-  {% include 'autocomplete.html' with field_label='Ocupación' field_id='ocupacion' %}
-  {% include 'autocomplete.html' with field_label='Nivel Educativo' field_id='nivelEducativo' %}
+  {% include 'autocomplete.html' with field_label='Ocupación' field_id='ocupacion' valor=campos.ocupacion.default %}
+  {{ campos.ocupacion.opciones|json_script:"ocupacion_data" }}
+
+  {% include 'autocomplete.html' with field_label='Nivel Educativo' field_id='nivelEducativo' valor=campos.nivelEducativo.default %}
+  {{ campos.nivelEducativo.opciones|json_script:"nivelEducativo_data" }}
+
   <div class="row mb-3">
     <div class="col">
-      {% include 'autocomplete.html' with field_label='Estado Civil' field_id='estadoCivil' %}
+      {% include 'autocomplete.html' with field_label='Estado Civil' field_id='estadoCivil' valor=campos.estadoCivil.default %}
+      {{ campos.estadoCivil.opciones|json_script:"estadoCivil_data" }}
+
     </div>
     <div class="col">
       {% include 'normal.html' with field_label='Número de Hijos' field_id='numeroDeHijos' %}
@@ -165,7 +174,8 @@
   </div>
   {% include 'normal.html' with field_label='Teléfono' field_id='telefono' %}
   {% include 'normal.html' with field_label='Lugar de Residencia' field_id='lugarResidencia' %}
-  {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoFamilia' %}
+  {% include 'autocomplete.html' with field_label='Tipo de Familia' field_id='tipoFamilia' valor=campos.tipoFamilia.default %}
+  {{ campos.tipoFamilia.opciones|json_script:"tipoFamilia_data" }}
 
   <div class="mb-3">
     <label for="HogarYBienestar" class="form-label">Hogar y Bienestar</label>
@@ -187,9 +197,14 @@
 
   <h2 class="mt-5 mb-3 font-weight-bold">Descripción de Situaciones de Riesgo a Nivel Individual</h2>
 
-  {% include 'autocomplete.html' with field_label='Condición de Discapacidad' field_id='condicionDiscapacidad' %}
-  {% include 'autocomplete.html' with field_label='Tipo de Discapacidad' field_id='tipoDiscapacidad' %}
-  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales' field_id='talentoYCapacidadesExepcionales' %}
+  {% include 'autocomplete.html' with field_label='Condición de Discapacidad' field_id='condicionDiscapacidad' valor=campos.condicionDiscapacidad.default %}
+  {{ campos.condicionDiscapacidad.opciones|json_script:"condicionDiscapacidad_data" }}
+
+  {% include 'autocomplete.html' with field_label='Tipo de Discapacidad' field_id='tipoDiscapacidad' valor=campos.tipoDiscapacidad.default %}
+  {{ campos.tipoDiscapacidad.opciones|json_script:"tipoDiscapacidad_data" }}
+
+  {% include 'autocomplete.html' with field_label='Talento y/o Capacidades Exepcionales' field_id='talentoYCapacidadesExepcionales' valor=campos.talentoYCapacidadesExepcionales.default %}
+  {{ campos.talentoYCapacidadesExepcionales.opciones|json_script:"talentoYCapacidadesExepcionales_data" }}
 
   <div class="mb-3">
     <label for="relatoEntrevistado" class="form-label">Relato del Entrevistado</label>
@@ -206,7 +221,8 @@ POLÍTICA DE PROTECCIÓN DE DATOS PERSONALES: Dado que la información contenida
 </textarea>
   </div>
 
-  {% include 'autocomplete.html' with field_label='Activación de Ruta' field_id='activacionRuta' %}
+  {% include 'autocomplete.html' with field_label='Activación de Ruta' field_id='activacionRuta' valor=campos.activacionRuta.default %}
+  {{ campos.activacionRuta.opciones|json_script:"activacionRuta_data" }}
 
   <div class="mb-3">
     <label for="procesosConvivencia" class="form-label">Procesos de Convivencia</label>
@@ -228,7 +244,8 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
     <input type="file" class="form-control" id="piar" name="piar" multiple></input>
   </div>
 
-  {% include 'autocomplete.html' with field_label='Estado del Caso' field_id='estadoCaso' %}
+  {% include 'autocomplete.html' with field_label='Estado del Caso' field_id='estadoCaso' valor=campos.estadoCaso.default %}
+  {{ campos.estadoCaso.opciones|json_script:"estadoCaso_data" }}
 
   <div class="mb-3">
     <label for="compromisoPadres" class="form-label">Compromiso de Padres</label>
@@ -246,11 +263,8 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
       name="fechaProximoSeguimiento"></input>
   </div>
 
-  <div class="mb-3">
-    <label for="nombreOrientadora" class="form-label">Nombre de quien realiza la atención</label>
-    <input type="text" class="form-control" id="nombreOrientadora" name="nombreOrientadora"
-      value="Amparo Garcés Vidal"></input>
-  </div>
+  {% include 'autocomplete.html' with field_label='Nombre de quien realiza la atención' field_id='nombreOrientadora' valor=campos.nombreOrientadora.default %}
+  {{ campos.nombreOrientadora.opciones|json_script:"nombreOrientadora_data" }}
 
 
 
@@ -261,43 +275,11 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
 
 </form>
 
-
-
-
 <script src="{% static 'form/script.js' %}"></script>
 
 {% if vista_detallada %}
 {{ registro.form_data|json_script:"form_data" }}
 <script>
-  function llenarFormularioConJson(jsonData, formularioId) {
-    // Obtener el formulario por su ID
-    var formulario = document.getElementById(formularioId);
-
-    // Verificar si el formulario y los datos están presentes
-    if (formulario && jsonData) {
-      // Iterar sobre las claves del JSON
-      for (var clave in jsonData) {
-        if (jsonData.hasOwnProperty(clave)) {
-          // Excluir el campo csrf_token
-          if (clave === 'csrfmiddlewaretoken') {
-            continue;
-          }
-
-          // Obtener el elemento de formulario por su nombre
-          var elemento = formulario.elements[clave];
-
-          // Verificar si el elemento existe en el formulario
-          if (elemento) {
-            // Establecer el valor del elemento con el valor correspondiente del JSON
-            elemento.value = jsonData[clave];
-          }
-        }
-      }
-    } else {
-      console.error("Formulario o datos no encontrados.");
-    }
-  }
-
   var jsonData = document.getElementById("form_data").textContent;
   jsonData = JSON.parse(jsonData);
 
