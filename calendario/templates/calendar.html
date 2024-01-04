@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row row-cols-2">
+    <div class="col">
+      <h1>Eventos</h1>
+      {% if error %}
+            <h2>{{ error }}</h2>
+
+        {% else %}
+
+            {% for evento in eventos %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ evento.1 }}</h5>
+                        <p class="card-text">{{ evento.0 }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        {% endif %}
+    </div>
+    <div class="col">
+      
+    </div>
+  </div>
+{% endblock content %}

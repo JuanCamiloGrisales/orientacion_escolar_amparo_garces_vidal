@@ -64,7 +64,7 @@
         id="navbarNavAltMarkup"
       >
         <div class="navbar-nav">
-          <!-- <a class="nav-link mx-2 underline"  href="#">Agenda</a> -->
+          <a class="nav-link mx-2 {% if request.path == '/agenda/' %}active{% endif %}"  href="{% url 'calendar' %}">Agenda</a>
 
           <a class="nav-link mx-2 {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}"
             >Registro de Atención</a

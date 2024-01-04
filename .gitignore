@@ -23,6 +23,10 @@ estudiantes.xlsx
 *$py.class
 archivos/
 
+# Google API
+credentials.json
+token.json
+
 # C extensions
 *.so
 
