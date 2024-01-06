@@ -43,14 +43,12 @@ def main():
     today = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     start_time = today.isoformat() + "Z"
     end_time = (today + datetime.timedelta(days=1)).isoformat() + "Z"
-    print("Getting the upcoming 10 events")
     events_result = (
         service.events()
         .list(
             calendarId="primary",
             timeMin=start_time,
             timeMax=end_time,
-            maxResults=10,
             singleEvents=True,
             orderBy="startTime",
         )
@@ -59,7 +57,7 @@ def main():
     events = events_result.get("items", [])
 
     if not events:
-      return "No hay eventos el día de hoy"
+      return "No tienes eventos programados para hoy. ¡Disfruta de tu día!"
 
     # Prints the start and name of the next 10 events
     event_list = []

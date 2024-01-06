@@ -38,6 +38,26 @@
       }
 
     </style>
+    <script>
+      function startTime() {
+          const today = new Date();
+          let h = today.getHours();
+          let m = today.getMinutes();
+          let s = today.getSeconds();
+          const ampm = h >= 12 ? 'PM' : 'AM';
+          h = h % 12;
+          h = h ? h : 12; // El valor 0 debe ser convertido a 12.
+          m = checkTime(m);
+          s = checkTime(s);
+          document.getElementById('reloj').innerHTML = h + ":" + m + ":" + s + " " + ampm;
+          setTimeout(startTime, 1000);
+      }
+      
+      function checkTime(i) {
+          if (i < 10) {i = "0" + i};
+          return i;
+      }
+      </script>
     {% block extrahead %}{% endblock %}
   </head>
 
@@ -69,12 +89,14 @@
           <a class="nav-link mx-2 {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}"
             >Registro de Atención</a
           >
-          <a class="nav-link mx-2 {% if request.path == '/piar' %}active{% endif %}" href="">PIAR</a>
-          <!-- Más links aquí -->
+          <a class="nav-link mx-2 {% if request.path == '/piar/' %}active{% endif %}" href="{% url 'piars' %}">PIAR</a>
+
+          
         </div>
       </div>
-
+      
       <div class="navbar-nav" style="position: absolute; right: 0;">
+        <i id="reloj" class="btn btn-link text-decoration-none text-dark"></i>
         <div class="dropdown">
           <button class="btn btn-link dropdown-toggle text-decoration-none text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-gears" aria-hidden="true"></i> Opciones
@@ -95,5 +117,6 @@
       crossorigin="anonymous"
     ></script>
     {% block extrajs %}{% endblock %}
+    <script>startTime();</script>
   </body>
 </html>

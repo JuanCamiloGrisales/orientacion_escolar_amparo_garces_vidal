@@ -24,4 +24,5 @@ urlpatterns = [
     path('registro-de-atencion/', include('registro_de_atencion.urls')),
     path('personalizar-formulario/', include('editor_formulario.urls')),
     path('agenda/', include('calendario.urls')),
+    path('piar/', include('piar.urls')),
 ]

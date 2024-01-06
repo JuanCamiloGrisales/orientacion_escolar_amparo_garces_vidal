@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'form/styles.css' %}">
+<div class="text-center">
+    <h1>Crear nuevo PIAR</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3 autocomplete-wrapper">
+            <input type="text" id="alumno" name="alumno"
+                placeholder="Ingresa el nombre del alumno para crear un nuevo PIAR"
+                class="form-control autocomplete-input" autocomplete="off">
+            <ul class="list-group autocomplete-results"></ul>
+        </div>
+        {{ alumnos|json_script:"alumnos" }}
+        <button type="submit" class="btn btn-primary mt-3 btn-lg">Generar PIAR</button>
+    </form>
+</div>
+
+<script src="{% static 'piar/script.js' %}"></script>
+{% endblock content %}

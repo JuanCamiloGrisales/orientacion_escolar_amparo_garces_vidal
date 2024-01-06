@@ -53,6 +53,7 @@ LOCAL_APPS = [
     'registro_de_atencion',
     'editor_formulario',
     'calendario',
+    'piar',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
