@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import locale
 from .forms import RegistroForm
 from .files_reader import configurar_municipios, configurar_estudiantes
@@ -122,7 +122,8 @@ def UsarRegistroComoPlantilla(request, id):
                'vista_detallada':True,
                'envio':'form'}
     
-    return render(request, 'form/form.html', context)
+    context['success'] = 'Registro actualizado exitosamente.'
+    return redirect('detail', registro.slug)
 
 def EditarRegistro(request, id):
 
@@ -179,3 +180,9 @@ def CrearNuevoRegistro(request, alumno):
                'envio':'form'}
     
     return render(request, 'form/form.html', context)
+
+def VerArchivos(request, id):
+    registro = get_object_or_404(Registro, id=id)
+    context = {'registro': registro}
+    
+    return render(request, 'filesView.html', context)

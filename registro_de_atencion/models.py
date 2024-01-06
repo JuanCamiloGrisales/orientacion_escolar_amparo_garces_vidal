@@ -14,7 +14,7 @@ class Archivo(models.Model):
         verbose_name_plural = 'Archivos'
 
     def __str__(self):
-        return str(self.id)
+        return str(self.archivo.name)
 
 class Registro(models.Model):
     '''Model definition for Registro.'''

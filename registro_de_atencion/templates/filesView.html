@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{registro.nombreEstudiante|title}}</h1>
+<h5>Archivos - Registro {{ registro.consecutivo }}</h5>
+
+<h3 class="mt-5">Acuerdos Previos</h3>
+{% for file in registro.acuerdosPrevios.all %}
+<a target="_blank" href="{{ file.archivo.url }}">
+    <div class="card mb-3 col-6">
+        <div class="card-body">
+            {{ file.archivo.name|cut:"archivos/"|default:"" }}
+        </div>
+    </div>
+</a>
+{% empty %}
+    <p class="mx-5">No hay archivos cargados</p>
+{% endfor %}
+
+<h3 class="mt-5">Remision</h3>
+{% for file in registro.remision.all %}
+<a target="_blank" href="{{ file.archivo.url }}">
+    <div class="card mb-3 col-6">
+        <div class="card-body">
+            {{ file.archivo.name|cut:"archivos/"|default:"" }}
+        </div>
+    </div>
+</a>
+{% empty %}
+    <p class="mx-5">No hay archivos cargados</p>
+{% endfor %}
+
+<h3 class="mt-5">PIAR</h3>
+{% for file in registro.piar.all %}
+<a target="_blank" href="{{ file.archivo.url }}">
+    <div class="card mb-3 col-6">
+        <div class="card-body">
+            {{ file.archivo.name|cut:"archivos/"|default:"" }}
+        </div>
+    </div>
+</a>
+{% empty %}
+    <p class="mx-5">No hay archivos cargados</p>
+{% endfor %}
+
+<h3 class="mt-5">Compromiso de Padres</h3>
+{% for file in registro.compromisoPadres.all %}
+<a target="_blank" href="{{ file.archivo.url }}">
+    <div class="card mb-3 col-6">
+        <div class="card-body">
+            {{ file.archivo.name|cut:"archivos/"|default:"" }}
+        </div>
+    </div>
+</a>
+{% empty %}
+    <p class="mx-5">No hay archivos cargados</p>
+{% endfor %}
+
+<h3 class="mt-5">Compromiso de Estudiantes</h3>
+{% for file in registro.compromisoEstudiantes.all %}
+<a target="_blank" href="{{ file.archivo.url }}">
+    <div class="card mb-3 col-6">
+        <div class="card-body">
+            {{ file.archivo.name|cut:"archivos/"|default:"" }}
+        </div>
+    </div>
+</a>
+{% empty %}
+    <p class="mx-5">No hay archivos cargados</p>
+{% endfor %}
+
+{% endblock content %}
