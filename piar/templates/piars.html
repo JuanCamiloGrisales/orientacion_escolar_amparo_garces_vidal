@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block extrahead %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'home/css/buscar.css' %}">
+
+{% endblock extrahead %}
+
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'form/styles.css' %}">
@@ -10,7 +16,7 @@
         <div class="mb-3 autocomplete-wrapper">
             <input type="text" id="alumno" name="alumno"
                 placeholder="Ingresa el nombre del alumno para crear un nuevo PIAR"
-                class="form-control autocomplete-input" autocomplete="off">
+                class="form-control autocomplete-input" autocomplete="off" required>
             <ul class="list-group autocomplete-results"></ul>
         </div>
         {{ alumnos|json_script:"alumnos" }}
@@ -18,5 +24,46 @@
     </form>
 </div>
 
+
+<div class="container mt-5" style="position: relative">
+
+    <input required="" type="text" class="input" id="searchInput" autocomplete="off" />
+    <span class="highlight"></span>
+    <span class="bar"></span>
+    <label class="mx-2">Buscar Alumnos</label>
+
+</div>
+<div class="row mt-5">
+    {% for alumno, slug in piars %}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4 registro">
+        <a href="{% url 'detailed_piar' slug %}" class="text-decoration-none">
+            <div class="card rounded">
+                <div class="card-body">
+                    <h4 class="card-title text-center">{{ alumno }}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
 <script src="{% static 'piar/script.js' %}"></script>
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const registros = document.getElementsByClassName('registro');
+
+    searchInput.addEventListener('input', function () {
+        const searchValue = searchInput.value.toLowerCase();
+
+        for (let i = 0; i < registros.length; i++) {
+            const estudiante = registros[i].querySelector('.card-title').textContent.toLowerCase();
+
+            if (estudiante.includes(searchValue)) {
+                registros[i].style.display = 'block';
+            } else {
+                registros[i].style.display = 'none';
+            }
+        }
+    });
+</script>
 {% endblock content %}

@@ -42,6 +42,8 @@ def FormularioDeRegistroDeAtencion(request):
 
             try:
                 observaciones = str(request.POST.get('observaciones', ''))
+                relatoEntrevistado = str(request.POST.get('relatoEntrevistado', ''))
+
 
                 mensaje = f"{mensaje_base} {observaciones}"
 
@@ -53,9 +55,19 @@ def FormularioDeRegistroDeAtencion(request):
                 response = service.chat(options)
 
                 registro.resumen = response.content
+                
+                mensaje2 = f"{mensaje_base} {relatoEntrevistado}"
+                messages2 = [
+                    Message(role="user", content=mensaje2),
+                ]
+                options2 = Options(messages=messages2)
+                response2 = service.chat(options2)
+
+                registro.resumenRelato = response2.content
             
             except:
                 registro.resumen = ''
+                registro.resumenRelato = ''
             
             registro.save()
 

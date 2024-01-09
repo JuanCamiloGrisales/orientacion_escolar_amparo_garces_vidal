@@ -27,6 +27,7 @@ urlpatterns = [
     path('personalizar-formulario/', include('editor_formulario.urls')),
     path('agenda/', include('calendario.urls')),
     path('piar/', include('piar.urls')),
+    path('estadisticas/', include('data.urls')),
 ]
 
 if settings.DEBUG:

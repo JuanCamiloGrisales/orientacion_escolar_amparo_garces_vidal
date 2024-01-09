@@ -1,0 +1,272 @@
+{% extends 'base.html' %} {% block extrahead %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{% load humanize %}
+{% endblock extrahead %} {% block content %}
+<h1>Estadísticas y gráficos</h1>
+<form action="" method="post" id="filtro" class="no-print">
+    {% csrf_token %}
+    <label for="fechaInicio" class="form-label">Fecha de inicio:</label>
+    <input type="date" name="fechaInicio" class="form-control-sm" id="fechaInicio">
+    <label for="fechaFin" class="form-label">Fecha de fin:</label>
+    <input type="date" name="fechaFin" id="fechaFin" class="form-control-sm"></label>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Refrescar</button>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('filtro');
+
+        form.addEventListener('submit', function (e) {
+            // Obtener los valores de los campos de fecha
+            var fechaInicio = document.getElementById('fechaInicio').value;
+            var fechaFin = document.getElementById('fechaFin').value;
+
+            if (!fechaInicio || !fechaFin) {
+                e.preventDefault();
+                var url = new URL(window.location.href);
+
+                // Recargar la página con los parámetros GET
+                window.location.href = url.toString();
+            }
+            // Si no están vacíos, el formulario se enviará normalmente (no necesita hacer nada más)
+        });
+    });
+</script>
+<hr>
+<h3 class="mt-4">Número de atenciones por cada día:</h3>
+{% regroup registros by fecha|date:"F" as registros_por_mes %}
+
+{% for mes in registros_por_mes %}
+    <h2>{{ mes.grouper|title }}</h2>
+    <ul>
+        <h4>Atenciones a Alumnos: {{ mes.list|length }}</h4>
+      {% for estudiante in mes.list %}
+        <h5>{{ estudiante.nombreEstudiante|title }}</h5>
+        <div class="ms-5">
+            <p>Fecha: {{ estudiante.fecha|naturalday }}</p>
+            <p>Grado: {{ estudiante.gradoEscolaridad }}</p>
+            <p>Motivo de atención: {{ estudiante.posiblesMotivosDeAtencion }}</p>
+
+        </div>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+<hr class="break">
+<h3 class="mt-4">Número de estudiantes por cada línea de atención:</h3>
+<canvas id="lineaAtencion"></canvas>
+<h3 class="mt-4">Número de estudiantes por cada motivo de atención:</h3>
+<canvas id="motivoAtencion"></canvas>
+<h3 class="mt-4">Número de estudiantes que tienen activación de ruta:</h3>
+
+<style>
+    canvas{
+        max-width: 100%;
+        max-height: 100%;
+    }
+  #activacionRuta,
+  #piar, #estadoCaso {
+    max-width: 400px;
+    max-height: 400px;
+  }
+</style>
+<canvas id="activacionRuta" width="200"></canvas>
+<hr class="break">
+<h3 class="mt-4">Número de estudiantes que tienen PIAR:</h3>
+<canvas id="piar"></canvas>
+<hr class="break">
+<h3 class="mt-4">Número de estudiantes por estado del caso:</h3>
+<canvas id="estadoCaso"></canvas>
+<hr">
+<script>
+  var ctxLineaAtencion = document.getElementById('lineaAtencion').getContext('2d');
+  var myChart = new Chart(ctxLineaAtencion, {
+      type: 'bar',
+      data: {
+          labels: [{% for dato in lineaDeAtencion.keys %}"{{ dato }}",{% endfor %}],
+  datasets: [{
+      label: 'Número de estudiantes',
+      data: [{% for dato in lineaDeAtencion.values %}{{ dato }}, {% endfor %}],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+              }]
+          },
+  options: {
+      responsive: true,
+
+      scales: {
+          y: {
+              beginAtZero: true,
+              ticks: {
+                  precision: 0,
+                  stepSize: 1
+              }
+          }
+      }
+  }
+      });
+</script>
+
+<script>
+  var ctxmotivoAtencion = document.getElementById('motivoAtencion').getContext('2d');
+  var myChart = new Chart(ctxmotivoAtencion, {
+      type: 'bar',
+      data: {
+          labels: [{% for dato in motivoDeAtencion.keys %}"{{ dato }}",{% endfor %}],
+  datasets: [{
+      label: 'Número de estudiantes',
+      data: [{% for dato in motivoDeAtencion.values %}{{ dato }}, {% endfor %}],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+              }]
+          },
+  options: {
+      responsive: true,
+
+      scales: {
+          y: {
+              beginAtZero: true,
+              ticks: {
+                  precision: 0,
+                  stepSize: 1
+              }
+          }
+      }
+  }
+      });
+</script>
+
+<script>
+  var ctxactivacionRuta = document.getElementById('activacionRuta').getContext('2d');
+        var myChart = new Chart(ctxactivacionRuta, {
+            type: 'doughnut',  // Tipo de gráfico: donut
+            data: {
+                labels: [{% for dato in activacionRuta.keys %}"{{ dato }}",{% endfor %}],
+                datasets: [{
+                    label: 'Número de Estudiantes',
+                    data: [{% for dato in activacionRuta.values %}{{ dato }},{% endfor %}],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                        // Agrega más colores según sea necesario
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                        // Agrega más colores según sea necesario
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                cutout: '0%',
+                responsive: true,
+                maintainAspectRatio: true,
+            }
+        });
+</script>
+
+<script>
+  var ctxestadoCaso = document.getElementById('estadoCaso').getContext('2d');
+        var myChart = new Chart(ctxestadoCaso, {
+            type: 'doughnut',  // Tipo de gráfico: donut
+            data: {
+                labels: [{% for dato in estadoCaso.keys %}"{{ dato }}",{% endfor %}],
+                datasets: [{
+                    label: 'Número de Estudiantes',
+                    data: [{% for dato in estadoCaso.values %}{{ dato }},{% endfor %}],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                        // Agrega más colores según sea necesario
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                        // Agrega más colores según sea necesario
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                cutout: '0%',
+                responsive: true,
+                maintainAspectRatio: true,
+            }
+        });
+</script>
+
+<script>
+  var ctxpiar = document.getElementById('piar').getContext('2d');
+        var myChart = new Chart(ctxpiar, {
+            type: 'doughnut',  // Tipo de gráfico: donut
+            data: {
+                labels: [{% for dato in piar.keys %}"{{ dato }}",{% endfor %}],
+                datasets: [{
+                    label: 'Número de Estudiantes',
+                    data: [{% for dato in piar.values %}{{ dato }},{% endfor %}],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                        // Agrega más colores según sea necesario
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                        // Agrega más colores según sea necesario
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+        cutout: '0%',
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            datalabels: {
+                color: '#fff',
+                formatter: (value, ctxpiar) => {
+                    let sum = 0;
+                    let dataArr = ctxpiar.chart.data.datasets[0].data;
+                    dataArr.map(data => {
+                        sum += data;
+                    });
+                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                    return percentage;
+                },
+                anchor: 'end',
+                align: 'start',
+                offset: -10
+            }
+        }
+    }
+        });
+</script>
+
+{% endblock content %}

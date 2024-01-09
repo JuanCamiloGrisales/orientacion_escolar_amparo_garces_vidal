@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .card {
+        height: 300px;
+        /* Ejemplo de altura fija */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body {
+        flex-grow: 1;
+        height: 100%;
+    }
+</style>
+{% regroup piars by alumno as grouped_piar %}
+
+{% for group in grouped_piar %}
+<h2>{{ group.grouper }}</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for piar in group.list %}
+    <div class="col">
+        <div class="card h-100 rounded">
+            <div class="card-header">
+                <p class="card-title text-center">{{ piar.created }}</p>
+            </div>
+            <a href="{{ piar.archivo.url }}" target="_blank" class="text-decoration-none">
+                <div class="card-body">
+                    <p class="card-title text-center">{{ piar.archivo.name|cut:"piars/" }}</p>
+                </div>
+            </a>
+            <div class="card-footer text-end mt-auto">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+                        class="fa fa-trash" aria-hidden="true"></i>
+                    Eliminar</button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel">Confirmación de eliminación</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Está seguro de que desea eliminar el PIAR?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger"><a href="{% url 'delete_piar' piar.id %}"
+                                    class="text-decoration-none text-white">Eliminar</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    <div class="col">
+        <div class="card h-100 rounded">
+            <div class="card-header">
+                <p class="card-title text-center">{% now 'DATETIME_FORMAT' %}</p>
+            </div>
+            <div class="card-body text-center">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="alumno" value="{{ first.alumno }}">
+                    <label for="new_piar" class="form-label">Seleccionar Archivo</label>
+                    <input type="file" name="new_piar" id="new_piar" class="form-control">
+                </div>
+                <div class="card-footer text-end mt-auto">
+                    <button type="submit" class="btn btn-primary">Añadir PIAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- <div class="col">
+        <div class="card h-100 rounded">
+            <div class="card-header">
+                <p class="card-title text-center">{% now 'DATETIME_FORMAT' %}</p>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="alumno" value="{{ first.alumno }}">
+                <div class="card-body">
+                    <label for="new_piar" class="form-label">Seleccionar Archivo</label>
+                    <input type="file" name="new_piar" id="new_piar" class="form-control">
+                </div>
+                <div class="card-footer text-end mt-auto">
+                    <button type="submit" class="btn btn-primary">Añadir PIAR</button>
+                </div>
+            </form>
+        </div>
+    </div> -->
+</div>
+{% endfor %}
+{% endblock %}

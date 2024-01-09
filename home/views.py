@@ -5,7 +5,7 @@ from registro_de_atencion.models import Registro
 
 # Create your views here.
 def home(request):
-    registros = Registro.objects.values_list('nombreEstudiante', 'slug').distinct()
+    registros = Registro.objects.values_list('nombreEstudiante', 'slug').distinct().order_by('nombreEstudiante', 'gradoEscolaridad')
     
     context = {'registros': registros,
                'mode': 'Filtrar'}

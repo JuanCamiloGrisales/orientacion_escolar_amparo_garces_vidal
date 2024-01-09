@@ -1,122 +1,187 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    {% load static %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Orientación Escolar - Amparo{% endblock %}</title>
-    <link
-      href="{% static 'home/css/bootstrap.min.css' %}"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'home/css/all.min.css' %}" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-      }
 
-      a {
-        text-decoration: none;
-      }
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Orientación Escolar - Amparo{% endblock %}</title>
+  <link href="{% static 'home/css/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'home/css/all.min.css' %}" crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+    }
 
-      .btn-primary {
-        border-radius: 5px;
-        border: 0;
-        background-color: #8a2be2;
-      }
+    a {
+      text-decoration: none;
+    }
 
-      .btn-primary:hover {
-        background-color: #7223bb;
-      }
+    .btn-primary {
+      border-radius: 5px;
+      border: 0;
+      background-color: #8a2be2;
+    }
 
-    </style>
-    <script>
-      function startTime() {
-          const today = new Date();
-          let h = today.getHours();
-          let m = today.getMinutes();
-          let s = today.getSeconds();
-          const ampm = h >= 12 ? 'PM' : 'AM';
-          h = h % 12;
-          h = h ? h : 12; // El valor 0 debe ser convertido a 12.
-          m = checkTime(m);
-          s = checkTime(s);
-          document.getElementById('reloj').innerHTML = h + ":" + m + ":" + s + " " + ampm;
-          setTimeout(startTime, 1000);
-      }
-      
-      function checkTime(i) {
-          if (i < 10) {i = "0" + i};
-          return i;
-      }
-      </script>
-    {% block extrahead %}{% endblock %}
-  </head>
+    .btn-primary:hover {
+      background-color: #7223bb;
+    }
 
-  <body>
-    <nav class="navbar container navbar-expand-lg navbar-light px-5" style="position: relative;">
-      <a class="navbar-brand" href="/">
-        <img src="{% static 'logo.png' %}" height="40" alt="Logo" />
-      </a>
+    .break{
+      page-break-after: always;
+    }
+  </style>
+  <script>
+    function startTime() {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12; // El valor 0 debe ser convertido a 12.
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('reloj').innerHTML = h + ":" + m + ":" + s + " " + ampm;
+      setTimeout(startTime, 1000);
+    }
 
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    function checkTime(i) {
+      if (i < 10) { i = "0" + i };
+      return i;
+    }
+  </script>
+  {% block extrahead %}{% endblock %}
+</head>
 
-      <div
-        class="collapse navbar-collapse justify-content-md-center"
-        id="navbarNavAltMarkup"
-      >
-        <div class="navbar-nav">
-          <a class="nav-link mx-2 {% if request.path == '/agenda/' %}active{% endif %}"  href="{% url 'calendar' %}">Agenda</a>
+<body>
+  <nav class="navbar container navbar-expand-lg navbar-light px-5 no-print" style="position: relative;">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'logo.png' %}" height="40" alt="Logo" />
+    </a>
 
-          <a class="nav-link mx-2 {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}"
-            >Registro de Atención</a
-          >
-          <a class="nav-link mx-2 {% if request.path == '/piar/' %}active{% endif %}" href="{% url 'piars' %}">PIAR</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-          
-        </div>
+    <div class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link mx-2 {% if request.path == '/agenda/' %}active{% endif %}"
+          href="{% url 'calendar' %}">Agenda</a>
+
+        <a class="nav-link mx-2 {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Registro de
+          Atención</a>
+        <a class="nav-link mx-2 {% if request.path == '/piar/' %}active{% endif %}" href="{% url 'piars' %}">PIAR</a>
+
+
       </div>
-      
-      <div class="navbar-nav" style="position: absolute; right: 0;">
-        <i id="reloj" class="btn btn-link text-decoration-none text-dark"></i>
-        <div class="dropdown">
-          <button class="btn btn-link dropdown-toggle text-decoration-none text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-gears" aria-hidden="true"></i> Opciones
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'actualizar' %}"><i class="fa fa-upload" aria-hidden="true"></i> Actualizar Base de Datos</a></li>
-            <li><a class="dropdown-item" href="{% url 'formEditor' %}"><i class="fa fa-file-pen" aria-hidden="true"></i> Editar Formulario</a></li>
-          </ul>
-        </div>
+    </div>
+
+    <div class="navbar-nav" style="position: absolute; right: 0;">
+      <i id="reloj" class="btn btn-link text-decoration-none text-dark"></i>
+      <div class="dropdown">
+        <button class="btn btn-link dropdown-toggle text-decoration-none text-dark" type="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-gears" aria-hidden="true"></i> Opciones
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{% url 'actualizar' %}"><i class="fa fa-upload" aria-hidden="true"></i>
+              Actualizar Lista de Alumnos</a></li>
+          <li><a class="dropdown-item" href="{% url 'formEditor' %}"><i class="fa fa-file-pen" aria-hidden="true"></i>
+              Editar Formulario</a></li>
+          <li><a class="dropdown-item change-color" href="#"><i class="fa fa-paint-roller"></i> Cambiar
+              color de fondo</a></li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="container mt-4">{% block content %} {% endblock %}</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Verificar si ya hay un color guardado en localStorage
+      var savedColor = localStorage.getItem('backgroundColor');
+      if (savedColor) {
+        document.body.style.backgroundColor = savedColor;
+      }
 
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script
-      src="{% static 'home/js/bootstrap.bundle.min.js' %}"
-      crossorigin="anonymous"
-    ></script>
-    {% block extrajs %}{% endblock %}
-    <script>startTime();</script>
-  </body>
+      // Crear el input de color
+      var colorInput = document.createElement('input');
+      colorInput.type = 'color';
+      colorInput.style.zIndex = '9999';
+      colorInput.classList.add('form-control', 'form-control-color');
+      colorInput.style.display = 'none'; // Ocultar inicialmente
+      document.body.appendChild(colorInput);
+
+      // Mostrar el input de color cuando se hace clic en 'Cambiar color de fondo'
+      document.querySelector('.change-color').addEventListener('click', function () {
+        colorInput.style.display = 'block';
+        colorInput.click(); // Abre el selector de color
+      });
+
+      // Cambiar el color de fondo y guardar en localStorage cuando el usuario elige un color
+      colorInput.addEventListener('input', function () {
+        document.body.style.backgroundColor = colorInput.value;
+        localStorage.setItem('backgroundColor', colorInput.value);
+      });
+
+      // Opcional: ocultar el input de color si se hace clic fuera de él
+      colorInput.addEventListener('blur', function () {
+        colorInput.style.display = 'none';
+
+      });
+    });
+  </script>
+
+  <div class="container mt-4 mb-5">{% block content %} {% endblock %}</div>
+
+  <!-- Bootstrap JS, Popper.js, and jQuery -->
+  <script src="{% static 'home/js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+  {% block extrajs %}{% endblock %}
+  <script>startTime();</script>
+  <script>
+    (function () {
+      var beforePrint = function () {
+        // Ocultar todos los elementos con la clase 'no-print'
+        var elements = document.querySelectorAll('.no-print');
+        elements.forEach(function (element) {
+          element.style.display = 'none';
+        });
+      };
+
+      var afterPrint = function () {
+        // Mostrar todos los elementos con la clase 'no-print' de nuevo
+        var elements = document.querySelectorAll('.no-print');
+        elements.forEach(function (element) {
+          element.style.display = ''; // Vaciar el estilo de display para volver al valor por defecto
+        });
+      };
+
+      // Agregar listeners para los eventos de imprimir
+      if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function (mql) {
+          if (mql.matches) {
+            beforePrint();
+          } else {
+            afterPrint();
+          }
+        });
+      }
+
+      // Listener para cubrir Internet Explorer
+      window.onbeforeprint = beforePrint;
+      window.onafterprint = afterPrint;
+    })();
+  </script>
+</body>
+
 </html>

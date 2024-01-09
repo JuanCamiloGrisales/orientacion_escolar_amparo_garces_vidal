@@ -284,7 +284,7 @@ class EditarCampos(models.Model):
     sexo = models.JSONField(default=DefaultSexo)
     genero = models.JSONField(default=DefaultGenero)
     parentesco = models.JSONField(default=DefaultParentesco)
-    ocupacion = models.JSONField(default=Default)
+    ocupacion = models.JSONField(default=DefaultOcupacion)
     nivelEducativo = models.JSONField(default=DefaultNivelEducativo)
     estadoCivil = models.JSONField(default=DefaultEstadoCivil)
     tipoFamilia = models.JSONField(default=DefaultTipoDeFamilia)

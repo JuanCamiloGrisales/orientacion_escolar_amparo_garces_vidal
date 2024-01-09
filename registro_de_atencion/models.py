@@ -83,6 +83,7 @@ class Registro(models.Model):
     form_data = models.JSONField(null=True, blank=True)
     resumen = models.TextField(null=True, blank=True)
     slug = models.SlugField(null=True, blank=True)
+    resumenRelato = models.TextField(null=True, blank=True)
 
     class Meta:
         '''Meta definition for Registro.'''
