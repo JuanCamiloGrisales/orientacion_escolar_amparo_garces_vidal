@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if success %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+    {% endif %} 
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <div class="row mt-5">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Descargar copia de seguridad</h5>
+                    <p>Descarga una copia de seguridad de la base de datos que podrás guardar en un USB u otro dispositivo de tu preferencia.</p>
+                    <a href="{% url 'export_database' %}" class="btn btn-primary">Descargar</a>
+            </div>
+        </div>
+
+        <div class="col mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Restaurar desde copia de seguridad</h5>
+                    <p>Sube un archivo de copia de seguridad de la base de datos para restaurarla en la base de datos actual.</p>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="backup" id="backup" class="form-control mb-3" required>
+                        <button type="submit" class="btn btn-primary">Restaurar</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

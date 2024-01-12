@@ -24,7 +24,6 @@ estudiantes.xlsx
 archivos/
 
 # Google API
-credentials.json
 token.json
 
 # C extensions

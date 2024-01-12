@@ -35,8 +35,11 @@
       background-color: #7223bb;
     }
 
-    .break{
+    .break {
       page-break-after: always;
+    }
+    .change-color:hover{
+      cursor: pointer;
     }
   </style>
   <script>
@@ -98,13 +101,25 @@
               Actualizar Lista de Alumnos</a></li>
           <li><a class="dropdown-item" href="{% url 'formEditor' %}"><i class="fa fa-file-pen" aria-hidden="true"></i>
               Editar Formulario</a></li>
-          <li><a class="dropdown-item change-color" href="#"><i class="fa fa-paint-roller"></i> Cambiar
-              color de fondo</a></li>
+          <li><a class="dropdown-item" href="{% url 'backups' %}"><i class="fa fa-database"
+                aria-hidden="true"></i> Copia de Seguridad y Restaurar</a></li>
+          <li class="dropdown-item change-color"><i class="fa fa-paint-roller"></i> Cambiar
+              color de fondo</li>
         </ul>
       </div>
     </div>
   </nav>
+  <div class="row align-items-center no-print">
+    <div class="col">
 
+    </div>
+    <div class="col text-center">
+      <input type="color" name="color" id="colorInput" class="form-control form-control-color" value="#ffffff" style="width: 100%; display: none;">
+    </div>
+    <div class="col">
+
+    </div>
+  </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Verificar si ya hay un color guardado en localStorage
@@ -114,12 +129,7 @@
       }
 
       // Crear el input de color
-      var colorInput = document.createElement('input');
-      colorInput.type = 'color';
-      colorInput.style.zIndex = '9999';
-      colorInput.classList.add('form-control', 'form-control-color');
-      colorInput.style.display = 'none'; // Ocultar inicialmente
-      document.body.appendChild(colorInput);
+      var colorInput = document.getElementById('colorInput');
 
       // Mostrar el input de color cuando se hace clic en 'Cambiar color de fondo'
       document.querySelector('.change-color').addEventListener('click', function () {
@@ -140,7 +150,6 @@
       });
     });
   </script>
-
   <div class="container mt-4 mb-5">{% block content %} {% endblock %}</div>
 
   <!-- Bootstrap JS, Popper.js, and jQuery -->
