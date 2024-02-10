@@ -1,0 +1,40 @@
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn-primary {
+  border-radius: 5px;
+  border: 0;
+  background-color: #8a2be2;
+}
+
+.btn-primary:hover {
+  background-color: #7223bb;
+}
+
+.break {
+  page-break-after: always;
+}
+.change-color:hover {
+  cursor: pointer;
+}
+
+.microphone {
+    display: flex;
+    position: fixed;
+    font-size: 3rem;
+    right: 2rem;
+    bottom: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    
+}
+
+.activemic
+{
+    color: #8a2be2;
+}

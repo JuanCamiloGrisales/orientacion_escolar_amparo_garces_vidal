@@ -179,57 +179,6 @@ function autocompleter() {
   // Fin Variables de completado automático
 })
 
-
-// Código para archivos multiples
-document.addEventListener("DOMContentLoaded", function () {
-  const filesInput = document.getElementById('files');
-  const preview = document.getElementById('preview');
-  const form = document.getElementById('uploadForm');
-
-  filesInput.addEventListener('change', function (event) {
-    preview.innerHTML = '';
-    for (let i = 0; i < filesInput.files.length; i++) {
-      let file = filesInput.files[i];
-      let fileDiv = document.createElement('div');
-      fileDiv.textContent = file.name;
-      fileDiv.className = 'mb-2';
-      let deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Eliminar';
-      deleteButton.className = 'btn text-white btn-sm ms-2';
-      deleteButton.onclick = function () {
-        // Eliminar el archivo del input.
-        let newFileList = Array.from(filesInput.files).filter(function (f) {
-          return f.name !== file.name;
-        });
-        filesInput.files = new DataTransfer().files;
-        newFileList.forEach(function (f) {
-          let dt = new DataTransfer();
-          dt.items.add(f);
-          filesInput.files = dt.files;
-        });
-        // Eliminar la vista previa del archivo.
-        fileDiv.remove();
-      };
-      fileDiv.appendChild(deleteButton);
-      preview.appendChild(fileDiv);
-    }
-  });
-
-  // form.addEventListener('submit', function (event) {
-  //   event.preventDefault();
-  //   // Aquí podrías usar FormData para enviar los archivos a Django con AJAX.
-  //   let formData = new FormData(form);
-  //   // Ejemplo de cómo enviar los datos usando fetch.
-  //   fetch('/upload/', {
-  //     method: 'POST',
-  //     body: formData,
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => console.log(data))
-  //   .catch(error => console.error(error));
-  // });
-});
-
 function llenarFormularioConJson(jsonData, formularioId) {
   // Obtener el formulario por su ID
   var formulario = document.getElementById(formularioId);

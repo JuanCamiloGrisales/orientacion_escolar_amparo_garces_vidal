@@ -16,32 +16,7 @@
     referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      border-radius: 5px;
-      border: 0;
-      background-color: #8a2be2;
-    }
-
-    .btn-primary:hover {
-      background-color: #7223bb;
-    }
-
-    .break {
-      page-break-after: always;
-    }
-    .change-color:hover{
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/basic_style.css' %}">
   <script>
     function startTime() {
       const today = new Date();
@@ -66,6 +41,12 @@
 </head>
 
 <body>
+  <!-- Microphone icon -->
+  <div class="no-print microphone">
+    <i class="fa fa-microphone" id="microphone" aria-hidden="true"></i>
+  </div>
+
+  <!-- Navbar -->
   <nav class="navbar container navbar-expand-lg navbar-light px-5 no-print" style="position: relative;">
     <a class="navbar-brand" href="/">
       <img src="{% static 'logo.png' %}" height="40" alt="Logo" />
@@ -154,43 +135,10 @@
 
   <!-- Bootstrap JS, Popper.js, and jQuery -->
   <script src="{% static 'home/js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
-  {% block extrajs %}{% endblock %}
   <script>startTime();</script>
-  <script>
-    (function () {
-      var beforePrint = function () {
-        // Ocultar todos los elementos con la clase 'no-print'
-        var elements = document.querySelectorAll('.no-print');
-        elements.forEach(function (element) {
-          element.style.display = 'none';
-        });
-      };
-
-      var afterPrint = function () {
-        // Mostrar todos los elementos con la clase 'no-print' de nuevo
-        var elements = document.querySelectorAll('.no-print');
-        elements.forEach(function (element) {
-          element.style.display = ''; // Vaciar el estilo de display para volver al valor por defecto
-        });
-      };
-
-      // Agregar listeners para los eventos de imprimir
-      if (window.matchMedia) {
-        var mediaQueryList = window.matchMedia('print');
-        mediaQueryList.addListener(function (mql) {
-          if (mql.matches) {
-            beforePrint();
-          } else {
-            afterPrint();
-          }
-        });
-      }
-
-      // Listener para cubrir Internet Explorer
-      window.onbeforeprint = beforePrint;
-      window.onafterprint = afterPrint;
-    })();
-  </script>
+  <script src="{% static 'js/on_print.js' %}"></script>
+  {% block extrajs %}{% endblock %}
+  <script src="{% static 'js/voice_recognition.js' %}"></script>
 </body>
 
 </html>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Informe por Nombres - {% now 'SHORT_DATE_FORMAT' %}
+{% endblock title %}
+
+{% block content %}
+    
+<div class="ms-3">
+
+    <h3>Lista de alumnos</h3>
+    
+    <h5>Fecha: {% now 'DATE_FORMAT' %}</h5>
+    
+    <h5>Orientadora Escolar: Amparo Garcés Vidal</h5>
+</div>
+
+<ul class="list-group list-group-flush">
+{% for registro in registros %}
+    <li class="list-group-item">{{ registro|title }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

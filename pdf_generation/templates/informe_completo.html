@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Informe completo - {% now 'SHORT_DATE_FORMAT' %}
+{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    .guardar {
+        position: fixed;
+        top: 7rem;
+        right: 3rem;
+    }
+</style>
+<a href="javascript:window.print()" class="btn btn-primary btn-lg ms-5 mt-3 guardar no-print"><i class="fa fa-print"
+        aria-hidden="true"></i> Imprimir</a>
+
+<div class="container">
+    <h1 class="text-center">Informe Completo de alumnos</h1>
+    <h2 class="text-center">Fecha: {% now 'DATE_FORMAT' %}</h2>
+
+    {% for nombre, registros in estudiantes.items %}
+    <div class="my-4">
+        <h2>{{ nombre|title }}</h2>
+        <div class="card mb-2">
+            <div class="card-body">
+                <h3 class="card-title">Información General</h3>
+                {% with registro=registros|last %}
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Número de Atenciones</td>
+                            <td>{{ registro.consecutivo }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Fecha de la última atención</td>
+                            <td>{{ registro.fecha|date:"d/m/Y" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Grado de Escolaridad</td>
+                            <td>{{ registro.gradoEscolaridad }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Municipio</td>
+                            <td>{{ registro.municipio }}</td>
+                        </tr>
+                        <tr>
+                            <td>Institución</td>
+                            <td>{{ registro.institucion }}</td>
+                        </tr>
+                        <tr>
+                            <td>Codigo DANE</td>
+                            <td>{{ registro.dane }}</td>
+                        </tr>
+                        <tr>
+                            <td>Sede</td>
+                            <td>{{ registro.sede }}</td>
+                    </tbody>
+                </table>
+                <hr>
+                {% endwith %}
+                {% for registro in registros %}
+                <div class="ms-2">
+
+                    <h3>Atención {{ registro.consecutivo }}</h3>
+                    <p>Espectativas del entrevistado</p>
+                    <p>{{ registro.espectativasEntrevistado|safe }}</p>
+                    <hr>
+                    <p>Relato del Entrevistado</p>
+                    {{ registro.relatoEntrevistado|safe }}
+                    <hr>
+                    <p>Observaciones</p>
+                    <p>{{ registro.observaciones|safe }}</p>
+                    <hr>
+                    <p>Estado del caso</p>
+                    <p>{{ registro.estadoCaso }}</p>
+                    <hr>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

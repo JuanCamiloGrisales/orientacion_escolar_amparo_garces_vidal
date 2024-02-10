@@ -9,15 +9,25 @@
 
 <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
 <script>
-    tinymce.init({
-        selector: 'textarea',
-        language: 'es_MX',
-        plugins: 'autolink lists charmap preview table searchreplace code fullscreen wordcount insertdatetime save table directionality emoticons',
-        toolbar_mode: 'floating',
-        toolbar_sticky: true,
-        branding: false,
-        toolbar: 'undo redo | formatselect | blocks fontsize | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist a11ycheck | table | searchreplace | fullscreen', 
+  tinymce.init({
+    selector: 'textarea',
+    language: 'es_MX',
+    setup: function (editor) {
+      editor.on('focus', function (e) {
+        var editorActivoId = editor.id;
+        // Guardar en el localStorage el ID del editor activo
+        localStorage.setItem('editorActivoId', editorActivoId);
+      });
+      editor.on('blur', function(e) {
+        localStorage.removeItem('editorActivoId');
     });
+    },
+    plugins: 'autolink lists charmap preview table searchreplace code fullscreen wordcount insertdatetime save table directionality emoticons',
+    toolbar_mode: 'floating',
+    toolbar_sticky: true,
+    branding: false,
+    toolbar: 'undo redo | formatselect | blocks fontsize | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist a11ycheck | table | searchreplace | fullscreen',
+  });
 </script>
 {% endblock extrahead %}
 
@@ -275,6 +285,7 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
 
 </form>
 
+{% block extrajs %}
 <script src="{% static 'form/script.js' %}"></script>
 
 {% if vista_detallada %}
@@ -289,5 +300,7 @@ DANE: 117013001167 - NIT: 810000561-9</textarea>
 
 </script>
 {% endif %}
+  
+{% endblock extrajs %}
 
 {% endblock %}

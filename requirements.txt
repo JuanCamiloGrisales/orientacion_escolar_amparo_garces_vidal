@@ -46,3 +46,4 @@ tzdata==2023.3
 uritemplate==4.1.1
 urllib3==2.1.0
 usellm==0.0.7
+xhtml2pdf==0.2.14

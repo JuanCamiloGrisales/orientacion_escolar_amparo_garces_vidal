@@ -28,6 +28,7 @@ urlpatterns = [
     path('agenda/', include('calendario.urls')),
     path('piar/', include('piar.urls')),
     path('estadisticas/', include('data.urls')),
+    path('datos/', include('pdf_generation.urls')),
 ]
 
 if settings.DEBUG:

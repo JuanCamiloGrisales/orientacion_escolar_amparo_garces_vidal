@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-5">Informes disponibles para impresión</h1>
+
+<div class="row d-grid gap-5 d-md-flex justify-content-md-center mb-5">
+
+    <div class="card" style="width:18rem;">
+        <div class="d-flex justify-content-center my-3">
+            <i class="fa fa-users" aria-hidden="true" style="font-size: 100px;"></i>
+
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Informe Completo</h5>
+            <h6 class="card-subtitle mb-2 text-muted ">De todos los alumnos</h6>
+            <p class="card-text">Imprime un extenso documento con toda la información sobre cada una de las atenciones
+                de cada
+                alumno registrado.</p>
+            <div class="d-grid gap-2">
+                <a href="{% url 'informe_completo' 'default' %}" class="btn btn-primary">Imprimir</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="width:18rem;">
+        <div class="d-flex justify-content-center my-3">
+
+            <i class="fa fa-list" aria-hidden="true" style="font-size: 100px;"></i>
+
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Informe por nombres</h5>
+            <h6 class="card-subtitle mb-2 text-muted ">Sin información extra</h6>
+            <p class="card-text">Imprime un documento que contiene únicamente los nombres de los alumnos registrados
+                ordenados alfabéticamente.</p>
+            <div class="d-grid gap-2">
+                <a href="{% url 'informe_nombres' 'default' %}" class="btn btn-primary">Imprimir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row d-grid gap-5 d-md-flex justify-content-md-center mb-5">
+    <div class="col card">
+        <div class="d-flex justify-content-center my-3">
+            <i class="fa fa-compass" aria-hidden="true" style="font-size: 100px;"></i>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Informe de Orientación</h5>
+            <h6 class="card-subtitle mb-2 text-muted ">Filtro de categoria</h6>
+            <p class="card-text">Imprime un documento con información opcional completa o por nombres únicamente de los
+                alumnos que se encuentran en la categoria de Orientación.</p>
+            <div class="d-grid gap-2">
+                <a href="{% url 'informe_completo' 'orientacion' %}" class="btn btn-primary">Informe completo</a>
+                <a href="{% url 'informe_nombres' 'orientacion' %}" class="btn btn-primary">Solo nombres</a>
+            </div>
+        </div>
+    </div>
+    <div class="col card">
+        <div class="d-flex justify-content-center my-3">
+            <i class="fa-solid fa-shield-halved" aria-hidden="true" style="font-size: 100px;"></i>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Informe de Prevención</h5>
+            <h6 class="card-subtitle mb-2 text-muted ">Filtro de categoria</h6>
+            <p class="card-text">Imprime un documento con información opcional completa o por nombres únicamente de los
+                alumnos que se encuentran en la categoria de Prevención.</p>
+            <div class="d-grid gap-2">
+                <a href="{% url 'informe_completo' 'prevencion' %}" class="btn btn-primary">Informe completo</a>
+                <a href="{% url 'informe_nombres' 'prevencion' %}" class="btn btn-primary">Solo nombres</a>
+            </div>
+        </div>
+    </div>
+    <div class="col card">
+        <div class="d-flex justify-content-center my-3">
+            <i class="fa-solid fa-handshake-angle" aria-hidden="true" style="font-size: 100px;"></i>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Informe de Intervención</h5>
+            <h6 class="card-subtitle mb-2 text-muted ">Filtro de categoria</h6>
+            <p class="card-text">Imprime un documento con información opcional completa o por nombres de los
+                alumnos que se encuentran en la categoria de Intervención.</p>
+            <div class="d-grid gap-2">
+                <a href="{% url 'informe_completo' 'intervencion' %}" class="btn btn-primary">Informe completo</a>
+                <a href="{% url 'informe_nombres' 'intervencion' %}" class="btn btn-primary">Solo nombres</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
